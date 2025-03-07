@@ -1,4 +1,4 @@
-package model.project;
+package model.entity;
 
 public class Project {
 }
