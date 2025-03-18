@@ -1,22 +1,26 @@
 package model;
 
+import util.RandomIDGenerator;
+
 public class Customer extends Person {
+    private int level;
     private boolean isPaidProject = false;
 
     public Customer() {
     }
 
-    public Customer(int id,String name, String phoneNumber, String emailAddress, int indexProject, boolean isPaidProject) {
-        super(id,name, phoneNumber, emailAddress, indexProject);
-        this.isPaidProject = isPaidProject;
+    public Customer(String name, String phoneNumber, String emailAddress, int indexProject, int level) {
+        super(name, phoneNumber, emailAddress, indexProject);
+        this.level = level;
+        this.id = RandomIDGenerator.generateID(this.getClass());
     }
 
     public boolean isPaidProject() {
         return isPaidProject;
     }
 
-    public void setPaidProject(boolean paidProject) {
-        isPaidProject = paidProject;
+    public void paid(){
+        isPaidProject = true;
     }
 
     @Override
@@ -26,6 +30,7 @@ public class Customer extends Person {
                 "Phone: "+phoneNumber+"\n" +
                 "Email: "+emailAddress+"\n" +
                 "Project: "+indexProject+"\n" +
+                "Level: " +level+"\n"+
                 "PaidProject: "+((isPaidProject)? "Đã thanh toán.":"Chưa thanh toán." )+"\n";
     }
 }

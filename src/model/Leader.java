@@ -1,14 +1,23 @@
 package model;
 
+import util.RandomIDGenerator;
+
 public class Leader extends Employee {
     private int groupIndex;
 
-    public Leader(int id, String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee, int salary, int groupIndex) {
-        super(id, name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee, salary);
+    public Leader(String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee, int groupIndex) {
+        super(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee);
         this.groupIndex = groupIndex;
+        this.salary = baseSalary();
+        this.id = RandomIDGenerator.generateID(this.getClass());
     }
 
     public Leader() {}
+
+    @Override
+    public int baseSalary() {
+        return calculateSalary(BASE_L_SALARY);
+    }
 
     public int getGroupIndex() {
         return groupIndex;

@@ -10,7 +10,6 @@ public class ManagerView extends EmployeeView{
         System.out.println("Nhập vào năm kinh nghiệm: ");
         int experienceYear = sc.nextInt();
         sc.nextLine();
-        int id = 4;
-        return new Manager(id, name,phoneNumber,emailAddress,indexProject,employee.getYearOfJoining(),employee.getTypeOfEmployee(),employee.getSalary(),experienceYear);
+        return new Manager(name, phoneNumber, emailAddress, indexProject, employee.getYearOfJoining(), employee.getTypeOfEmployee(), experienceYear);
     }
 }

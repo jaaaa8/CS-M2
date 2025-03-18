@@ -1,20 +1,40 @@
 package model;
 
-public class Employee extends Person {
-    private int yearOfJoining;
-    private String typeOfEmployee;
-    private int salary;
+import util.RandomIDGenerator;
 
-    public Employee(int id, String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee, int salary) {
-        super(id, name, phoneNumber, emailAddress, indexProject);
+import java.time.LocalDate;
+
+public class Employee extends Person {
+    protected int yearOfJoining;
+    private String typeOfEmployee;
+    protected int salary;
+
+    public Employee(String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee) {
+        super(name, phoneNumber, emailAddress, indexProject);
         this.yearOfJoining = yearOfJoining;
         this.typeOfEmployee = typeOfEmployee;
-        this.salary = salary;
+        this.salary = baseSalary();
+        this.id = RandomIDGenerator.generateID(this.getClass());
     }
     public Employee() {}
 
+    public int baseSalary() {
+        return calculateSalary(BASE_E_SALARY);
+    }
+
+    protected int calculateSalary(int baseSalary) {
+        int thisYear = LocalDate.now().getYear();
+        if (thisYear - yearOfJoining >= 1 && thisYear - yearOfJoining < 5) {
+            return baseSalary + (thisYear - yearOfJoining) * 500;
+        } else if (thisYear - yearOfJoining >= 5) {
+            return baseSalary + 3000;
+        } else {
+            return baseSalary;
+        }
+    }
+
     public int getSalary() {
-        return salary;
+        return this.salary;
     }
 
     public void setSalary(int salary) {

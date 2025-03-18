@@ -10,7 +10,6 @@ public class LeaderView extends EmployeeView {
         System.out.println("Nhập vào STT nhóm: ");
         int groupIndex = sc.nextInt();
         sc.nextLine();
-        int id = 4;
-        return new Leader(id, name,phoneNumber,emailAddress,indexProject,employee.getYearOfJoining(),employee.getTypeOfEmployee(),employee.getSalary(),groupIndex);
+        return new Leader(name,phoneNumber,emailAddress,indexProject,employee.getYearOfJoining(),employee.getTypeOfEmployee(),groupIndex);
     }
 }

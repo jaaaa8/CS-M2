@@ -1,16 +1,15 @@
 package model;
 
-import service.IViewProject;
+import service.IPerson;
 
-public abstract class Person implements IViewProject {
-    protected int id;
+public abstract class Person implements IPerson {
+    protected String id;
     protected String name;
     protected String phoneNumber;
     protected String emailAddress;
     protected int indexProject;
 
-    public Person(int id, String name, String phoneNumber, String emailAddress, int indexProject) {
-        this.id = id;
+    public Person(String name, String phoneNumber, String emailAddress, int indexProject) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
@@ -18,12 +17,8 @@ public abstract class Person implements IViewProject {
     }
     public Person(){}
 
-    public int getId() {
+    public String getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getPhoneNumber() {
