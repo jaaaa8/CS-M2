@@ -19,17 +19,17 @@ public class ManagerService implements IManagerService {
     @Override
     public List<Employee> employeeList() {
         List<Employee> employeeData = new ArrayList<>();
-        List<String> linesDate = ReadAndWriteData.readFile(employees);
+        List<String> linesData = ReadAndWriteData.readFile(employees);
 
-        for (String line : linesDate) {
+        for (String line : linesData) {
             String[] partsData = line.split("-");
             if (partsData.length < 8) continue;
             String id = partsData[0];
             String name = partsData[1];
             String phoneNumber = partsData[2];
             String emailAddress = partsData[3];
-            String typeOfEmployee = partsData[4];
-            int indexProject = Integer.parseInt(partsData[5]);
+            String typeOfEmployee = partsData[5];
+            int indexProject = Integer.parseInt(partsData[4]);
             int salary = Integer.parseInt(partsData[6]);
             int yearOfJoining = Integer.parseInt(partsData[7]);
             try{
@@ -57,14 +57,17 @@ public class ManagerService implements IManagerService {
 
     @Override
     public void addEmployee(Employee employee) {
-        List<String> employees = new LinkedList<>();
-        employees.add(employee.getInfo());
+        List<String> employeeData = new LinkedList<>();
+        employeeData.add(employee.getInfo());
+        ReadAndWriteData.writeToFile(employees,employeeData,APPEND);
     }
 
     @Override
-    public void deleteEmployee(Employee employee) {
+    public void fireEmployee(Employee employee) {
         List<String> employees = new LinkedList<>();
         employees.remove(employee.getInfo());
+
+
     }
 
     @Override

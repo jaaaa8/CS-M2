@@ -23,6 +23,11 @@ public class Manager extends Employee {
     }
 
     @Override
+    public String getInfo(){
+        return super.getInfo()+"-"+experienceYear;
+    }
+
+    @Override
     public int baseSalary() {
         return calculateSalary(BASE_M_SALARY);
     }

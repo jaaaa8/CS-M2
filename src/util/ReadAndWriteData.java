@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ReadAndWriteData {
     public static void writeToFile(File file, List<String> data, boolean append){
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,append))) {
             for (String s : data) {
                 bw.write(s);
                 bw.newLine();

@@ -66,8 +66,9 @@ public class Employee extends Person {
         this.yearOfJoining = yearOfJoining;
     }
 
+    @Override
     public String getInfo(){
-        return id+", "+name+", "+phoneNumber+", "+emailAddress+", "+indexProject+", "+typeOfEmployee+", "+salary+", ";
+        return super.getInfo()+"-"+typeOfEmployee+"-"+salary+"-"+yearOfJoining;
     }
 
     @Override

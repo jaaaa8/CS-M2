@@ -51,4 +51,7 @@ public abstract class Person implements IPerson {
         this.name = name;
     }
 
+    public String getInfo(){
+        return id + "-" + name + "-" + phoneNumber + "-" + emailAddress+"-"+indexProject;
+    }
 }

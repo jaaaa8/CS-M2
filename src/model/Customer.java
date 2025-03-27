@@ -21,6 +21,11 @@ public class Customer extends Person {
         this.id = id;
     }
 
+    @Override
+    public String getInfo(){
+        return super.getInfo()+"-"+level;
+    }
+
     public boolean isPaidProject() {
         return isPaidProject;
     }
