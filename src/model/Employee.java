@@ -16,6 +16,15 @@ public class Employee extends Person {
         this.salary = baseSalary();
         this.id = RandomIDGenerator.generateID(this.getClass());
     }
+
+    public Employee(String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee, int salary, String id) {
+        super(name, phoneNumber, emailAddress, indexProject);
+        this.yearOfJoining = yearOfJoining;
+        this.typeOfEmployee = typeOfEmployee;
+        this.salary = salary;
+        this.id = id;
+    }
+
     public Employee() {}
 
     public int baseSalary() {
@@ -63,7 +72,7 @@ public class Employee extends Person {
 
     @Override
     public String toString() {
-        return "ID: "+id+"\n" +
+        return  "ID: "+id+"\n" +
                 "Name: "+name+"\n" +
                 "Phone: "+phoneNumber+"\n" +
                 "Email: "+emailAddress+"\n" +

@@ -12,6 +12,13 @@ public class Leader extends Employee {
         this.id = RandomIDGenerator.generateID(this.getClass());
     }
 
+    public Leader(String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee, int salary, String id, int groupIndex) {
+        super(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee);
+        this.groupIndex = groupIndex;
+        this.salary = salary;
+        this.id = id;
+    }
+
     public Leader() {}
 
     @Override
@@ -29,7 +36,7 @@ public class Leader extends Employee {
 
     @Override
     public String toString() {
-        return "ID: "+id+"\n" +
+        return  "ID: "+id+"\n" +
                 "Name: "+name+"\n" +
                 "Phone: "+phoneNumber+"\n" +
                 "Email: "+emailAddress+"\n" +

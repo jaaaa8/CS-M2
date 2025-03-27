@@ -15,6 +15,12 @@ public class Customer extends Person {
         this.id = RandomIDGenerator.generateID(this.getClass());
     }
 
+    public Customer(String name, String phoneNumber, String emailAddress, int indexProject, int level, String id) {
+        super(name, phoneNumber, emailAddress, indexProject);
+        this.level = level;
+        this.id = id;
+    }
+
     public boolean isPaidProject() {
         return isPaidProject;
     }
@@ -25,7 +31,7 @@ public class Customer extends Person {
 
     @Override
     public String toString() {
-        return "ID: "+id+"\n" +
+        return  "ID: "+id+"\n" +
                 "Name: "+name+"\n" +
                 "Phone: "+phoneNumber+"\n" +
                 "Email: "+emailAddress+"\n" +

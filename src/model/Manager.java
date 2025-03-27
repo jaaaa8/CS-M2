@@ -15,6 +15,13 @@ public class Manager extends Employee {
         this.id = RandomIDGenerator.generateID(this.getClass());
     }
 
+    public Manager(String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee,int salary, String id, int experienceYear) {
+        super(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee);
+        this.experienceYear = experienceYear;
+        this.salary = salary;
+        this.id = id;
+    }
+
     @Override
     public int baseSalary() {
         return calculateSalary(BASE_M_SALARY);
