@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface IManagerService {
     List<Employee> employeeList();
-    abstract void addEmployee(Employee employee);
-    abstract void fireEmployee(Employee employee);
-    abstract void updateEmployee(Employee employee);
-    abstract void promoteEmployee(Employee employee);
-    abstract void demoteEmployee(Employee employee);
+    void addEmployee(Employee employee);
+    void deleteEmployee(String id, Employee employee);
+    boolean updateEmployee(String id, Employee employee);
+    void promoteEmployee(Employee employee);
+    void demoteEmployee(Employee employee);
 }

@@ -63,11 +63,14 @@ public class ManagerService implements IManagerService {
     }
 
     @Override
-    public void fireEmployee(Employee employee) {
-        List<String> employees = new LinkedList<>();
-        employees.remove(employee.getInfo());
-
-
+    public void deleteEmployee(String id, Employee employee) {
+        List<Employee> employeeData = employeeList();
+        employeeData.removeIf(emp -> emp.getId().equals(id));
+        List<String> employeesData = new ArrayList<>();
+        for (Employee emp : employeeData) {
+            employeesData.add(emp.getInfo());
+        }
+        ReadAndWriteData.writeToFile(employees,employeesData,NOT_APPEND);
     }
 
     @Override
@@ -81,7 +84,23 @@ public class ManagerService implements IManagerService {
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
-
+    public boolean updateEmployee(String id, Employee employee) {
+        boolean result = false;
+        List<Employee> employeeData = employeeList();
+        for(int i = 0 ; i < employeeData.size() ; i++){
+            if(employeeData.get(i).getId().equals(id)){
+                result = true;
+                employeeData.set(i,employee);
+                break;
+            }
+        }
+        if(result){
+            List<String> employeesData = new ArrayList<>();
+            for (Employee emp : employeeData) {
+                employeesData.add(emp.getInfo());
+            }
+            ReadAndWriteData.writeToFile(employees,employeesData,NOT_APPEND);
+        }
+        return result;
     }
 }

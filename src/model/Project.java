@@ -3,10 +3,13 @@ package model;
 import java.util.ArrayList;
 
 public class Project {
+    private int indexID;
     private String projectName;
     private String startDate;
     private String expectedEndDate;
-    private ArrayList<Person> person;
+    private Leader leader;
+    private Customer customer;
+    private ArrayList<Employee> employees;
     private String typeOfProject;
     private long expense;
     private long revenue;
@@ -15,16 +18,51 @@ public class Project {
 
     public Project(){}
 
-    public Project(String projectName, String startDate, String expectedEndDate, ArrayList<Person> person, String typeOfProject, long expense, long revenue, boolean isPaid, String actionHistory) {
+    public Project(int indexID, String projectName, String startDate, String expectedEndDate, Leader leader, Customer customer, ArrayList<Employee> employees, String typeOfProject, long expense, long revenue, boolean isPaid, String actionHistory) {
+        this.indexID = indexID;
         this.projectName = projectName;
         this.startDate = startDate;
         this.expectedEndDate = expectedEndDate;
-        this.person = person;
+        this.leader = leader;
+        this.customer = customer;
+        this.employees = employees;
         this.typeOfProject = typeOfProject;
         this.expense = expense;
         this.revenue = revenue;
         this.isPaid = isPaid;
         this.actionHistory = actionHistory;
+    }
+
+    public Leader getLeader() {
+        return leader;
+    }
+
+    public void setLeader(Leader leader) {
+        this.leader = leader;
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(ArrayList<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public int getIndexID() {
+        return indexID;
+    }
+
+    public void setIndexID(int indexID) {
+        this.indexID = indexID;
     }
 
     public String getProjectName() {
