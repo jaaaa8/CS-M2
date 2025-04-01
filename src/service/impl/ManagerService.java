@@ -27,7 +27,10 @@ public class ManagerService implements IManagerService {
 
         for (String line : linesData) {
             String[] partsData = line.split("-");
-            if (partsData.length < 8) continue;
+            if (partsData.length < 8) {
+                System.err.println("Data format exception at line " + line);
+                continue;
+            }
             String id = partsData[0];
             String name = partsData[1];
             String phoneNumber = partsData[2];
@@ -102,11 +105,9 @@ public class ManagerService implements IManagerService {
                 emp.setSalary(updatedEmployee.getSalary());
                 emp.setYearOfJoining(updatedEmployee.getYearOfJoining());
 
-                // Nếu là Leader, cập nhật indexGroup
                 if (emp instanceof Leader && updatedEmployee instanceof Leader) {
                     ((Leader) emp).setGrouptIndex(((Leader) updatedEmployee).getGrouptIndex());
                 }
-                // Nếu là Manager, cập nhật experienceYear
                 if (emp instanceof Manager && updatedEmployee instanceof Manager) {
                     ((Manager) emp).setExperienceYear(((Manager) updatedEmployee).getExperienceYear());
                 }

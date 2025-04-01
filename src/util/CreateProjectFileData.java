@@ -19,10 +19,10 @@ public class CreateProjectFileData {
             }
 
             String typeCode = getType(project.getTypeOfProject());
-            String customerName = project.getCustomer().getId();
+            String customerName = cleanWhitespace(project.getCustomer().getName());
             int nextIndex = getNextIndex(folder, typeCode, customerName);
 
-            // Tạo tên file theo format EXJACK002.txt
+            // Tạo tên file theo format EXJACK002.csv
             String fileName = String.format("%s%s%03d.csv", typeCode, customerName, nextIndex);
             File newFile = new File(folder, fileName);
 
@@ -45,6 +45,7 @@ public class CreateProjectFileData {
                             .reduce((id1, id2) -> id1 + "," + id2)
                             .orElse("None"); // Nếu không có nhân viên nào, ghi "None"
                     writer.write("List employees: " + employeeIds);
+                    writer.newLine();
                     writer.write("Start Date: " + project.getStartDate());
                     writer.newLine();
                     writer.write("Expected End Date: " + project.getExpectedEndDate());
@@ -59,11 +60,11 @@ public class CreateProjectFileData {
     }
 
     private static String getType(String typeOfProject) {
-        return switch (typeOfProject.toLowerCase()) {
-            case "renovation" -> "re";
-            case "expand" -> "ex";
-            case "commencement" -> "co";
-            default -> "un"; // Unknown
+        return switch (typeOfProject.toUpperCase()) {
+            case "RENOVATION" -> "RE";
+            case "EXPAND" -> "EX";
+            case "COMMENCEMENT" -> "CO";
+            default -> "UN"; // Unknown
         };
     }
 
@@ -84,5 +85,12 @@ public class CreateProjectFileData {
         } catch (NumberFormatException e) {
             return 1;
         }
+    }
+
+    public static String cleanWhitespace(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.replaceAll("\\s+", "");
     }
 }

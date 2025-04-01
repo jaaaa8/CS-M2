@@ -2,6 +2,7 @@ package service.impl;
 
 import model.Employee;
 import model.Project;
+import service.IEditProject;
 import service.IManageProject;
 import util.CreateProjectFileData;
 import util.ReadAndWriteData;
@@ -9,7 +10,7 @@ import util.ReadAndWriteData;
 import java.io.File;
 import java.util.List;
 
-public class ProjectService implements IManageProject {
+public class ProjectService implements IManageProject, IEditProject {
     private static final String projectFolderPath = "E:\\CS M2\\src\\repository\\project";
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
