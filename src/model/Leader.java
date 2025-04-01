@@ -3,18 +3,18 @@ package model;
 import util.RandomIDGenerator;
 
 public class Leader extends Employee {
-    private int groupIndex;
+    private int projectIndex;
 
     public Leader(String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee, int groupIndex) {
         super(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee);
-        this.groupIndex = groupIndex;
+        this.projectIndex = groupIndex;
         this.salary = baseSalary();
         this.id = RandomIDGenerator.generateID(this.getClass());
     }
 
     public Leader(String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee, int salary, String id, int groupIndex) {
         super(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee);
-        this.groupIndex = groupIndex;
+        this.projectIndex = groupIndex;
         this.salary = salary;
         this.id = id;
     }
@@ -26,17 +26,17 @@ public class Leader extends Employee {
         return calculateSalary(BASE_L_SALARY);
     }
 
-    public int getGroupIndex() {
-        return groupIndex;
+    public int getProjectIndex() {
+        return projectIndex;
     }
 
-    public void setGroupIndex(int groupIndex) {
-        this.groupIndex = groupIndex;
+    public void setProjectIndex(int projectIndex) {
+        this.projectIndex = projectIndex;
     }
 
     @Override
     public String getInfo(){
-        return super.getInfo()+"-"+groupIndex;
+        return super.getInfo()+"-"+ projectIndex;
     }
 
     @Override
@@ -49,6 +49,6 @@ public class Leader extends Employee {
                 "Year of Joining: "+getYearOfJoining()+"\n" +
                 "Type of Employee: "+getTypeOfEmployee()+"\n" +
                 "Salary: "+getSalary()+"\n" +
-                "Group: "+groupIndex+"\n";
+                "Group: "+ projectIndex +"\n";
     }
 }

@@ -17,11 +17,11 @@ public class CreateProjectFileData {
             }
 
             String typeCode = getType(project.getTypeOfProject());
-            String customerName = project.getCustomer().getName().toUpperCase();
+            String customerName = project.getCustomer().getName().toLowerCase();
             int nextIndex = getNextIndex(folder, typeCode, customerName);
 
             // Tạo tên file theo format EXJACK002.txt
-            String fileName = String.format("%s%s%03d.txt", typeCode, customerName, nextIndex);
+            String fileName = String.format("%s%s%03d.csv", typeCode, customerName, nextIndex);
             File newFile = new File(folder, fileName);
 
             if (newFile.createNewFile()) {
@@ -34,6 +34,8 @@ public class CreateProjectFileData {
                     writer.write("Customer: " + customerName);
                     writer.newLine();
                     writer.write("Project Type: " + project.getTypeOfProject());
+                    writer.newLine();
+                    writer.write("Leader Name: " + project.getLeader().getName());
                     writer.newLine();
                     writer.write("Start Date: " + project.getStartDate());
                     writer.newLine();
@@ -49,11 +51,11 @@ public class CreateProjectFileData {
     }
 
     private static String getType(String typeOfProject) {
-        return switch (typeOfProject.toUpperCase()) {
-            case "RENOVATION" -> "RE";
-            case "EXPAND" -> "EX";
-            case "COMMENCEMENT" -> "CO";
-            default -> "UN"; // Unknown
+        return switch (typeOfProject.toLowerCase()) {
+            case "renovation" -> "re";
+            case "expand" -> "ex";
+            case "commencement" -> "co";
+            default -> "un"; // Unknown
         };
     }
 

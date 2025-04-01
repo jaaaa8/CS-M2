@@ -1,6 +1,6 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Project {
     private int indexID;
@@ -9,16 +9,16 @@ public class Project {
     private String expectedEndDate;
     private Leader leader;
     private Customer customer;
-    private ArrayList<Employee> employees;
+    private List<Employee> employees;
     private String typeOfProject;
     private long expense;
     private long revenue;
-    private boolean isPaid;
+    private boolean isPaid = false;
     private String actionHistory;
 
     public Project(){}
 
-    public Project(int indexID, String projectName, String startDate, String expectedEndDate, Leader leader, Customer customer, ArrayList<Employee> employees, String typeOfProject, long expense, long revenue, boolean isPaid, String actionHistory) {
+    public Project(int indexID, String projectName, String startDate, String expectedEndDate, Leader leader, Customer customer, List<Employee> employees, String typeOfProject, long expense, long revenue, boolean isPaid, String actionHistory) {
         this.indexID = indexID;
         this.projectName = projectName;
         this.startDate = startDate;
@@ -41,11 +41,11 @@ public class Project {
         this.leader = leader;
     }
 
-    public ArrayList<Employee> getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(ArrayList<Employee> employees) {
+    public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
 
