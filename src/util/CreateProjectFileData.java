@@ -1,11 +1,13 @@
 package util;
 
+import model.Employee;
 import model.Project;
 
 import java.io.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class CreateProjectFileData {
     public static void createProjectFile(String folderPath, Project project) {
@@ -17,7 +19,7 @@ public class CreateProjectFileData {
             }
 
             String typeCode = getType(project.getTypeOfProject());
-            String customerName = project.getCustomer().getName().toLowerCase();
+            String customerName = project.getCustomer().getId();
             int nextIndex = getNextIndex(folder, typeCode, customerName);
 
             // Tạo tên file theo format EXJACK002.txt
@@ -31,12 +33,18 @@ public class CreateProjectFileData {
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
                     writer.write("Project Name: " + project.getProjectName());
                     writer.newLine();
-                    writer.write("Customer: " + customerName);
+                    writer.write("Customer: " + project.getCustomer().getId());
                     writer.newLine();
                     writer.write("Project Type: " + project.getTypeOfProject());
                     writer.newLine();
-                    writer.write("Leader Name: " + project.getLeader().getName());
+                    writer.write("Leader: " + project.getLeader().getId());
                     writer.newLine();
+                    List<Employee> employees = project.getEmployees(); // Giả sử có phương thức này
+                    String employeeIds = employees.stream()
+                            .map(Employee::getId)
+                            .reduce((id1, id2) -> id1 + "," + id2)
+                            .orElse("None"); // Nếu không có nhân viên nào, ghi "None"
+                    writer.write("List employees: " + employeeIds);
                     writer.write("Start Date: " + project.getStartDate());
                     writer.newLine();
                     writer.write("Expected End Date: " + project.getExpectedEndDate());
@@ -71,9 +79,10 @@ public class CreateProjectFileData {
 
     private static int extractIndex(String fileName, String typeCode, String customerName) {
         try {
-            return Integer.parseInt(fileName.replace(typeCode + customerName, "").replace(".txt", ""));
+            String numberPart = fileName.replace(typeCode + customerName, "").replace(".csv", "");
+            return Integer.parseInt(numberPart);
         } catch (NumberFormatException e) {
-            return 0;
+            return 1;
         }
     }
 }

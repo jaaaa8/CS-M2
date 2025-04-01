@@ -3,7 +3,7 @@ package service;
 import model.Project;
 
 public interface IManageProject {
-    boolean editProject(int indexID, Project project);
+    boolean editProject(String filePath, Project project);
     void addProject(Project project);
-    void removeProject(int indexID, Project project);
+    void removeProject(String filePath, Project project);
 }

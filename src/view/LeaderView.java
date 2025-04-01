@@ -7,7 +7,7 @@ public class LeaderView extends EmployeeView {
     @Override
     protected Leader createPerson(String name, String phoneNumber, String emailAddress, int indexProject) {
         Employee employee = super.createPerson(name, phoneNumber, emailAddress, indexProject);
-        System.out.println("Nhập vào STT nhóm: ");
+        System.out.println("Nhập vào nhóm quản lý: ");
         int groupIndex = sc.nextInt();
         sc.nextLine();
         return new Leader(name,phoneNumber,emailAddress,indexProject,employee.getYearOfJoining(),employee.getTypeOfEmployee(),groupIndex);

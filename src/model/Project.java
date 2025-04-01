@@ -11,10 +11,7 @@ public class Project {
     private Customer customer;
     private List<Employee> employees;
     private String typeOfProject;
-    private long expense;
-    private long revenue;
     private boolean isPaid = false;
-    private String actionHistory;
 
     public Project(){}
 
@@ -27,10 +24,7 @@ public class Project {
         this.customer = customer;
         this.employees = employees;
         this.typeOfProject = typeOfProject;
-        this.expense = expense;
-        this.revenue = revenue;
         this.isPaid = isPaid;
-        this.actionHistory = actionHistory;
     }
 
     public Leader getLeader() {
@@ -97,35 +91,11 @@ public class Project {
         this.typeOfProject = typeOfProject;
     }
 
-    public long getExpense() {
-        return expense;
-    }
-
-    public void setExpense(long expense) {
-        this.expense = expense;
-    }
-
-    public long getRevenue() {
-        return revenue;
-    }
-
-    public void setRevenue(long revenue) {
-        this.revenue = revenue;
-    }
-
     public boolean isPaid() {
         return isPaid;
     }
 
     public void setPaid(boolean paid) {
         isPaid = paid;
-    }
-
-    public String getActionHistory() {
-        return actionHistory;
-    }
-
-    public void setActionHistory(String actionHistory) {
-        this.actionHistory = actionHistory;
     }
 }

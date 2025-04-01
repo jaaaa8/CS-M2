@@ -3,6 +3,8 @@ package service.impl;
 import model.Employee;
 import model.Leader;
 import model.Manager;
+import model.Project;
+import service.IManageProject;
 import service.IManagerService;
 import util.ReadAndWriteData;
 
@@ -15,6 +17,8 @@ public class ManagerService implements IManagerService {
     private static final File employees = new File("E:\\CS M2\\src\\repository\\employees.csv");
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
+
+    private final IManageProject projectService = new ProjectService();
 
     @Override
     public List<Employee> employeeList() {
@@ -84,23 +88,43 @@ public class ManagerService implements IManagerService {
     }
 
     @Override
-    public boolean updateEmployee(String id, Employee employee) {
+    public boolean updateEmployee(String id, Employee updatedEmployee) {
         boolean result = false;
         List<Employee> employeeData = employeeList();
-        for(int i = 0 ; i < employeeData.size() ; i++){
-            if(employeeData.get(i).getId().equals(id)){
+
+        for (Employee emp : employeeData) {
+            if (emp.getId().equals(id)) {
+                // Cập nhật từng thuộc tính nếu có giá trị mới
+                if (!updatedEmployee.getName().isEmpty()) emp.setName(updatedEmployee.getName());
+                if (!updatedEmployee.getPhoneNumber().isEmpty()) emp.setPhoneNumber(updatedEmployee.getPhoneNumber());
+                if (!updatedEmployee.getEmailAddress().isEmpty()) emp.setEmailAddress(updatedEmployee.getEmailAddress());
+                emp.setIndexProject(updatedEmployee.getIndexProject());
+                emp.setSalary(updatedEmployee.getSalary());
+                emp.setYearOfJoining(updatedEmployee.getYearOfJoining());
+
+                // Nếu là Leader, cập nhật indexGroup
+                if (emp instanceof Leader && updatedEmployee instanceof Leader) {
+                    ((Leader) emp).setGrouptIndex(((Leader) updatedEmployee).getGrouptIndex());
+                }
+                // Nếu là Manager, cập nhật experienceYear
+                if (emp instanceof Manager && updatedEmployee instanceof Manager) {
+                    ((Manager) emp).setExperienceYear(((Manager) updatedEmployee).getExperienceYear());
+                }
+
                 result = true;
-                employeeData.set(i,employee);
                 break;
             }
         }
-        if(result){
+
+        if (result) {
+            // Ghi lại danh sách nhân viên sau khi cập nhật
             List<String> employeesData = new ArrayList<>();
             for (Employee emp : employeeData) {
                 employeesData.add(emp.getInfo());
             }
-            ReadAndWriteData.writeToFile(employees,employeesData,NOT_APPEND);
+            ReadAndWriteData.writeToFile(employees, employeesData, NOT_APPEND);
         }
         return result;
     }
+
 }

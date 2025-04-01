@@ -14,8 +14,7 @@ public abstract class PersonView<E extends Person>{
         String phoneNumber = sc.nextLine();
         System.out.println("Email: ");
         String emailAddress = sc.nextLine();
-        System.out.println("STT của dự án góp mặt: ");
-        int indexProject = sc.nextInt();
+        int indexProject = 0;
         sc.nextLine();
         return createPerson(name, phoneNumber, emailAddress, indexProject);
     }
