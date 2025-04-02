@@ -12,8 +12,6 @@ import java.util.List;
 
 public class ProjectService implements IManageProject, IEditProject {
     private static final String projectFolderPath = "E:\\CS M2\\src\\repository\\project";
-    private static final boolean APPEND = true;
-    private static final boolean NOT_APPEND = false;
 
     @Override
     public boolean editProject(String filePath, Project updatedProject) {
@@ -60,7 +58,7 @@ public class ProjectService implements IManageProject, IEditProject {
 
         // Nếu có thay đổi, ghi lại dữ liệu vào file
         if (updated) {
-            ReadAndWriteData.writeToFile(projectFile, projectData, NOT_APPEND);
+            ReadAndWriteData.writeToFile(projectFile, projectData, false);
             System.out.println("Project updated successfully: " + filePath);
         } else {
             System.out.println("No changes were made to the project.");
@@ -75,7 +73,7 @@ public class ProjectService implements IManageProject, IEditProject {
     }
 
     @Override
-    public void removeProject(String filePath, Project project) {
+    public void removeProject(String filePath) {
         File projectFile = new File(filePath);
 
         if (projectFile.exists()) {

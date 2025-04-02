@@ -128,4 +128,17 @@ public class ManagerService implements IManagerService {
         return result;
     }
 
+    public void addProject(Project project) {
+        projectService.addProject(project);
+    }
+
+    public void removeProject(String filePath) {
+        File projectFile = new File(filePath);
+        if (!projectFile.exists()) {
+            System.err.println("Project file not found: " + filePath);
+            return;
+        }
+        projectService.removeProject(filePath);
+    }
+
 }

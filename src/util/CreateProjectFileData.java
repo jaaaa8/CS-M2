@@ -22,8 +22,8 @@ public class CreateProjectFileData {
             String customerName = cleanWhitespace(project.getCustomer().getName());
             int nextIndex = getNextIndex(folder, typeCode, customerName);
 
-            // Tạo tên file theo format EXJACK002.csv
-            String fileName = String.format("%s%s%03d.csv", typeCode, customerName, nextIndex);
+            // Tạo tên file theo format 002EXJACK.csv
+            String fileName = String.format("%03d%s%s.csv", nextIndex,typeCode, customerName);
             File newFile = new File(folder, fileName);
 
             if (newFile.createNewFile()) {
@@ -69,19 +69,18 @@ public class CreateProjectFileData {
     }
 
     private static int getNextIndex(File folder, String typeCode, String customerName) {
-        File[] files = folder.listFiles((dir, name) -> name.startsWith(typeCode + customerName));
+        File[] files = folder.listFiles((dir, name) -> name.matches("\\d{3}" + typeCode + customerName + "\\.csv"));
         if (files == null || files.length == 0) {
             return 1;
         }
 
-        Arrays.sort(files, Comparator.comparingInt(f -> extractIndex(f.getName(), typeCode, customerName)));
-        return extractIndex(files[files.length - 1].getName(), typeCode, customerName) + 1;
+        Arrays.sort(files, Comparator.comparingInt(f -> extractIndex(f.getName())));
+        return extractIndex(files[files.length - 1].getName()) + 1;
     }
 
-    private static int extractIndex(String fileName, String typeCode, String customerName) {
+    private static int extractIndex(String fileName) {
         try {
-            String numberPart = fileName.replace(typeCode + customerName, "").replace(".csv", "");
-            return Integer.parseInt(numberPart);
+            return Integer.parseInt(fileName.substring(0, 3));
         } catch (NumberFormatException e) {
             return 1;
         }
