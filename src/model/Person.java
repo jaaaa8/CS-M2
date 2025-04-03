@@ -15,6 +15,7 @@ public abstract class Person implements IPerson {
         this.emailAddress = emailAddress;
         this.indexProject = indexProject;
     }
+
     public Person(){}
 
     public String getId() {

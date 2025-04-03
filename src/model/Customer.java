@@ -4,7 +4,6 @@ import util.RandomIDGenerator;
 
 public class Customer extends Person {
     private int level;
-    private boolean isPaidProject = false;
 
     public Customer() {
     }
@@ -26,14 +25,6 @@ public class Customer extends Person {
         return super.getInfo()+"-"+level;
     }
 
-    public boolean isPaidProject() {
-        return isPaidProject;
-    }
-
-    public void paid(){
-        isPaidProject = true;
-    }
-
     @Override
     public String toString() {
         return  "ID: "+id+"\n" +
@@ -41,7 +32,6 @@ public class Customer extends Person {
                 "Phone: "+phoneNumber+"\n" +
                 "Email: "+emailAddress+"\n" +
                 "Project: "+indexProject+"\n" +
-                "Level: " +level+"\n"+
-                "PaidProject: "+((isPaidProject)? "Đã thanh toán.":"Chưa thanh toán." )+"\n";
+                "Level: " +level+"\n";
     }
 }

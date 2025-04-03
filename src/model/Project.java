@@ -15,7 +15,7 @@ public class Project {
 
     public Project(){}
 
-    public Project(int indexID, String projectName, String startDate, String expectedEndDate, Leader leader, Customer customer, List<Employee> employees, String typeOfProject, long expense, long revenue, boolean isPaid, String actionHistory) {
+    public Project(int indexID, String projectName, String startDate, String expectedEndDate, Leader leader, Customer customer, List<Employee> employees, String typeOfProject, boolean isPaid) {
         this.indexID = indexID;
         this.projectName = projectName;
         this.startDate = startDate;

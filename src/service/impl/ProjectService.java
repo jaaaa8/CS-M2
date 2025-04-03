@@ -1,13 +1,17 @@
 package service.impl;
 
+import model.Customer;
 import model.Employee;
+import model.Leader;
 import model.Project;
 import service.IEditProject;
 import service.IManageProject;
+import util.CreateObjectByID;
 import util.CreateProjectFileData;
 import util.ReadAndWriteData;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectService implements IManageProject, IEditProject {
@@ -53,6 +57,9 @@ public class ProjectService implements IManageProject, IEditProject {
             } else if (line.startsWith("Expected End Date: ")) {
                 projectData.set(i, "Expected End Date: " + updatedProject.getExpectedEndDate());
                 updated = true;
+            } else if (line.startsWith("Pay: ")) {
+                projectData.set(i, "Pay: "+ (updatedProject.isPaid() ? "Already." : "Not yet."));
+                updated = true;
             }
         }
 
@@ -86,4 +93,75 @@ public class ProjectService implements IManageProject, IEditProject {
             System.err.println("Project file not found: " + filePath);
         }
     }
+
+    public List<Project> projectList() {
+        List<Project> projectList = new ArrayList<>();
+        File projectFolder = new File("projects");
+
+        if (!projectFolder.exists() || !projectFolder.isDirectory()) {
+            System.err.println("Project directory not found!");
+            return projectList;
+        }
+
+        File[] projectFiles = projectFolder.listFiles((dir, name) -> name.endsWith(".csv"));
+        if (projectFiles == null || projectFiles.length == 0) {
+            System.err.println("No project files found!");
+            return projectList;
+        }
+
+        for (File projectFile : projectFiles) {
+            List<String> projectData = ReadAndWriteData.readFile(projectFile);
+            if (projectData.isEmpty()) {
+                System.err.println("Skipping empty file: " + projectFile.getName());
+                continue;
+            }
+
+            try {
+                // Trích xuất dữ liệu từ danh sách projectData
+                String projectName = projectData.get(0).replace("Project Name: ", "").trim();
+                String customerId = projectData.get(1).replace("Customer: ", "").trim();
+                String typeOfProject = projectData.get(2).replace("Project Type: ", "").trim();
+                String leaderId = projectData.get(3).replace("Leader: ", "").trim();
+
+                // Lấy danh sách nhân viên
+                String employeeLine = projectData.get(4).replace("List employees: ", "").trim();
+                List<Employee> employees = new ArrayList<>();
+                if (!employeeLine.equals("None")) {
+                    String[] employeeIds = employeeLine.split(",");
+                    for (String empId : employeeIds) {
+                        employees.add(CreateObjectByID.getEmployeeByID(empId.trim()));
+                    }
+                }
+
+                String startDate = projectData.get(5).replace("Start Date: ", "").trim();
+                String expectedEndDate = projectData.get(6).replace("Expected End Date: ", "").trim();
+                boolean isPaid = projectData.get(7).replace("Pay: ", "").trim().equals("Already.");
+
+                // Tạo đối tượng Leader và Customer từ ID
+                Leader leader = CreateObjectByID.getLeaderByID(leaderId);
+                Customer customer = CreateObjectByID.getCustomerByID(customerId);
+
+                // Tạo Project từ dữ liệu
+                Project project = new Project(
+                        projectList.size() + 1,  // indexID tự tăng
+                        projectName,
+                        startDate,
+                        expectedEndDate,
+                        leader,
+                        customer,
+                        employees,
+                        typeOfProject,
+                        isPaid
+                );
+
+                // Thêm vào danh sách
+                projectList.add(project);
+
+            } catch (Exception e) {
+                System.err.println("Error parsing file: " + projectFile.getName());
+            }
+        }
+        return projectList;
+    }
+
 }

@@ -49,6 +49,8 @@ public class CreateProjectFileData {
                     writer.write("Start Date: " + project.getStartDate());
                     writer.newLine();
                     writer.write("Expected End Date: " + project.getExpectedEndDate());
+                    writer.newLine();
+                    writer.write("Pay: " + (project.isPaid() ? "Already." : "Not yet."));
                     System.out.println("Project details written to file.");
                 }
             } else {
