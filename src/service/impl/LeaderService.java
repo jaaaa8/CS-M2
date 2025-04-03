@@ -12,10 +12,9 @@ import java.util.List;
 public class LeaderService extends ShowProject implements IEditProject{
 
     @Override
-    public boolean editProject(String filePath, Project updatedProject) {
-        File projectFile = new File(filePath);
+    public boolean editProject(File projectFile, Project updatedProject) {
         if (!projectFile.exists()) {
-            System.err.println("Project file does not exist: " + filePath);
+            System.err.println("Project file does not exist");
             return false;
         }
 
@@ -38,7 +37,7 @@ public class LeaderService extends ShowProject implements IEditProject{
 
         if (updated) {
             ReadAndWriteData.writeToFile(projectFile, projectData,false);
-            System.out.println("Project updated successfully: " + filePath);
+            System.out.println("Project updated successfully");
         } else {
             System.out.println("No changes were made to the project.");
         }

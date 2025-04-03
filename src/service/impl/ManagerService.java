@@ -141,7 +141,21 @@ public class ManagerService implements IManagerService{
         projectService.removeProject(filePath);
     }
 
-    public boolean editProject(String filePath, Project project) {
-        return projectService.editProject(filePath, project);
+    public boolean editProject(File projectFile, Project project) {
+        return projectService.editProject(projectFile, project);
+    }
+
+    public void showAllProjects() {
+        List<Project> projectList = projectService.projectList();
+
+        if (projectList.isEmpty()) {
+            System.out.println("No projects found!");
+            return;
+        }
+
+        System.out.println("List of Projects:");
+        for (Project project : projectList) {
+            System.out.println("- " + project.getProjectName().replace(".csv", ""));
+        }
     }
 }

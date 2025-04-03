@@ -2,6 +2,8 @@ package service;
 
 import model.Project;
 
+import java.io.File;
+
 public interface IEditProject {
-    boolean editProject(String filePath, Project project);
+    boolean editProject(File projectFile, Project project);
 }
