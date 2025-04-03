@@ -1,4 +1,4 @@
 package service.impl;
 
-public class EmployeeService {
+public class EmployeeService extends ShowProject{
 }

@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ManagerService implements IManagerService {
+public class ManagerService implements IManagerService{
     private static final File employees = new File("E:\\CS M2\\src\\repository\\employees.csv");
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
 
-    private final IManageProject projectService = new ProjectService();
+    private final ProjectService projectService = new ProjectService();
 
     @Override
     public List<Employee> employeeList() {
@@ -26,7 +26,7 @@ public class ManagerService implements IManagerService {
         List<String> linesData = ReadAndWriteData.readFile(employees);
 
         for (String line : linesData) {
-            String[] partsData = line.split("-");
+            String[] partsData = line.split(",");
             if (partsData.length < 8) {
                 System.err.println("Data format exception at line " + line);
                 continue;
@@ -141,4 +141,7 @@ public class ManagerService implements IManagerService {
         projectService.removeProject(filePath);
     }
 
+    public boolean editProject(String filePath, Project project) {
+        return projectService.editProject(filePath, project);
+    }
 }

@@ -1,6 +1,7 @@
 package service.impl;
 
 import model.Employee;
+
 import model.Project;
 import service.IEditProject;
 import util.ReadAndWriteData;
@@ -8,7 +9,7 @@ import util.ReadAndWriteData;
 import java.io.File;
 import java.util.List;
 
-public class LeaderService implements IEditProject {
+public class LeaderService extends ShowProject implements IEditProject{
 
     @Override
     public boolean editProject(String filePath, Project updatedProject) {
@@ -44,5 +45,4 @@ public class LeaderService implements IEditProject {
 
         return updated;
     }
-
 }
