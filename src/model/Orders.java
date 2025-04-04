@@ -18,6 +18,10 @@ public class Orders {
         this.budget = budget;
     }
 
+    public String getInfo(){
+        return id+","+customer.getId()+","+description+","+typeOfOrder+","+budget;
+    }
+
     public String getDescription() {
         return description;
     }

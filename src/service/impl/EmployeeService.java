@@ -1,14 +1,23 @@
 package service.impl;
 
 import model.Employee;
-import service.IEmployeeService;
+import model.Orders;
+import service.IShowSalary;
+import util.CreateObjectByID;
 
-import java.io.File;
-
-public class EmployeeService extends ShowProject implements IEmployeeService {
+public class EmployeeService extends ShowProject implements IShowSalary {
+    private final BookingService bookingService = new BookingService();
 
     @Override
-    public void showSalary(Employee employee) {
+    public void showSalary(String id) {
+        Employee employee = CreateObjectByID.getEmployeeByID(id);
+        if (employee == null) {
+            return;
+        }
         System.out.println("Luong cua ban la: "+employee.baseSalary());
+    }
+
+    public void addBooking(Orders orders) {
+        bookingService.addBooking(orders);
     }
 }

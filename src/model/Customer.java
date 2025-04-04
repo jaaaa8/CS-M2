@@ -20,9 +20,17 @@ public class Customer extends Person {
         this.id = id;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public String getInfo(){
-        return super.getInfo()+"-"+level;
+        return super.getInfo()+","+level;
     }
 
     @Override

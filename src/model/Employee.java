@@ -68,7 +68,7 @@ public class Employee extends Person {
 
     @Override
     public String getInfo(){
-        return super.getInfo()+"-"+typeOfEmployee+"-"+salary+"-"+yearOfJoining;
+        return super.getInfo()+","+typeOfEmployee+","+salary+","+yearOfJoining;
     }
 
     @Override

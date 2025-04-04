@@ -1,7 +1,5 @@
 package model;
 
-import service.IPerson;
-
 public abstract class Person implements IPerson {
     protected String id;
     protected String name;
@@ -53,6 +51,6 @@ public abstract class Person implements IPerson {
     }
 
     public String getInfo(){
-        return id + "-" + name + "-" + phoneNumber + "-" + emailAddress+"-"+indexProject;
+        return id + "," + name + "," + phoneNumber + "," + emailAddress+","+indexProject;
     }
 }

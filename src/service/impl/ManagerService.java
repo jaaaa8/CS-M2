@@ -4,8 +4,9 @@ import model.Employee;
 import model.Leader;
 import model.Manager;
 import model.Project;
-import service.IManageProject;
 import service.IManagerService;
+import service.IShowSalary;
+import util.CreateObjectByID;
 import util.ReadAndWriteData;
 
 import java.io.*;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ManagerService implements IManagerService{
+public class ManagerService implements IManagerService, IShowSalary {
     private static final File employees = new File("E:\\CS M2\\src\\repository\\employees.csv");
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
@@ -70,7 +71,7 @@ public class ManagerService implements IManagerService{
     }
 
     @Override
-    public void deleteEmployee(String id, Employee employee) {
+    public void deleteEmployee(String id) {
         List<Employee> employeeData = employeeList();
         employeeData.removeIf(emp -> emp.getId().equals(id));
         List<String> employeesData = new ArrayList<>();
@@ -81,35 +82,39 @@ public class ManagerService implements IManagerService{
     }
 
     @Override
-    public void demoteEmployee(Employee employee) {
+    public void demoteEmployee(String id) {
 
     }
 
     @Override
-    public void promoteEmployee(Employee employee) {
+    public void promoteEmployee(String id) {
 
     }
 
     @Override
-    public boolean updateEmployee(String id, Employee updatedEmployee) {
+    public boolean updateEmployee(String id) {
         boolean result = false;
+        Employee employee = CreateObjectByID.getEmployeeByID(id);
+        if (employee == null) {
+             return false;
+        }
         List<Employee> employeeData = employeeList();
 
         for (Employee emp : employeeData) {
             if (emp.getId().equals(id)) {
                 // Cập nhật từng thuộc tính nếu có giá trị mới
-                if (!updatedEmployee.getName().isEmpty()) emp.setName(updatedEmployee.getName());
-                if (!updatedEmployee.getPhoneNumber().isEmpty()) emp.setPhoneNumber(updatedEmployee.getPhoneNumber());
-                if (!updatedEmployee.getEmailAddress().isEmpty()) emp.setEmailAddress(updatedEmployee.getEmailAddress());
-                emp.setIndexProject(updatedEmployee.getIndexProject());
-                emp.setSalary(updatedEmployee.getSalary());
-                emp.setYearOfJoining(updatedEmployee.getYearOfJoining());
+                if (!employee.getName().isEmpty()) emp.setName(employee.getName());
+                if (!employee.getPhoneNumber().isEmpty()) emp.setPhoneNumber(employee.getPhoneNumber());
+                if (!employee.getEmailAddress().isEmpty()) emp.setEmailAddress(employee.getEmailAddress());
+                emp.setIndexProject(employee.getIndexProject());
+                emp.setSalary(employee.getSalary());
+                emp.setYearOfJoining(employee.getYearOfJoining());
 
-                if (emp instanceof Leader && updatedEmployee instanceof Leader) {
-                    ((Leader) emp).setGroupIndex(((Leader) updatedEmployee).getGroupIndex());
+                if (emp instanceof Leader && employee instanceof Leader) {
+                    ((Leader) emp).setGroupIndex(((Leader) employee).getGroupIndex());
                 }
-                if (emp instanceof Manager && updatedEmployee instanceof Manager) {
-                    ((Manager) emp).setExperienceYear(((Manager) updatedEmployee).getExperienceYear());
+                if (emp instanceof Manager && employee instanceof Manager) {
+                    ((Manager) emp).setExperienceYear(((Manager) employee).getExperienceYear());
                 }
 
                 result = true;
@@ -157,5 +162,14 @@ public class ManagerService implements IManagerService{
         for (Project project : projectList) {
             System.out.println("- " + project.getProjectName().replace(".csv", ""));
         }
+    }
+
+    @Override
+    public void showSalary(String id) {
+        Manager manager = CreateObjectByID.getManagerByID(id);
+        if (manager == null) {
+            return;
+        }
+        System.out.println("Luong cua ban la: "+manager.baseSalary());
     }
 }

@@ -24,7 +24,7 @@ public class Manager extends Employee {
 
     @Override
     public String getInfo(){
-        return super.getInfo()+"-"+experienceYear;
+        return super.getInfo()+","+experienceYear;
     }
 
     @Override

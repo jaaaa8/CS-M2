@@ -1,9 +1,6 @@
 package service.impl;
 
-import model.Customer;
-import model.Employee;
-import model.Leader;
-import model.Project;
+import model.*;
 import service.IEditProject;
 import service.IManageProject;
 import util.CreateObjectByID;
@@ -91,6 +88,11 @@ public class ProjectService implements IManageProject, IEditProject {
         } else {
             System.err.println("Project file not found: " + filePath);
         }
+    }
+
+    @Override
+    public void addProject(Orders orders) {
+
     }
 
     public List<Project> projectList() {

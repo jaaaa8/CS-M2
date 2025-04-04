@@ -1,4 +1,4 @@
-package service;
+package model;
 
 public interface IPerson {
     int BASE_E_SALARY = 10000;

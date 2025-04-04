@@ -1,15 +1,19 @@
 package service.impl;
 
 import model.Employee;
-
+import model.Leader;
+import model.Orders;
 import model.Project;
 import service.IEditProject;
+import service.IShowSalary;
+import util.CreateObjectByID;
 import util.ReadAndWriteData;
 
 import java.io.File;
 import java.util.List;
 
-public class LeaderService extends ShowProject implements IEditProject{
+public class LeaderService extends ShowProject implements IEditProject, IShowSalary {
+    private final BookingService bookingService = new BookingService();
 
     @Override
     public boolean editProject(File projectFile, Project updatedProject) {
@@ -43,5 +47,19 @@ public class LeaderService extends ShowProject implements IEditProject{
         }
 
         return updated;
+    }
+
+
+    @Override
+    public void showSalary(String id) {
+        Leader leader = CreateObjectByID.getLeaderByID(id);
+        if(leader == null) {
+            return;
+        }
+        System.out.println("Luong cua ban la: "+leader.baseSalary());
+    }
+
+    public void addBooking(Orders orders) {
+        bookingService.addBooking(orders);
     }
 }

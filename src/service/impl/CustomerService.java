@@ -1,6 +1,7 @@
 package service.impl;
 
 import model.Customer;
+import model.Orders;
 import service.ICustomerService;
 import util.CreateObjectByID;
 import util.ReadAndWriteData;
@@ -15,6 +16,8 @@ public class CustomerService extends ShowProject implements ICustomerService {
     private static final File customers = new File("E:\\CS M2\\src\\repository\\customers.csv");
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
+
+    private final BookingService bookingService = new BookingService();
 
     @Override
     public List<Customer> customerList() {
@@ -53,8 +56,41 @@ public class CustomerService extends ShowProject implements ICustomerService {
 
     @Override
     public boolean updateCustomer(String id) {
-        return false;
+        boolean result = false;
+        Customer updatedCustomer = CreateObjectByID.getCustomerByID(id);
+        if (updatedCustomer == null) {
+            return false;
+        }
+
+        List<Customer> customerList = customerList();
+
+        for (Customer customer : customerList) {
+            if (customer.getId().equals(id)) {
+                // Cập nhật thông tin nếu có thay đổi
+                if (!updatedCustomer.getName().isEmpty()) customer.setName(updatedCustomer.getName());
+                if (!updatedCustomer.getPhoneNumber().isEmpty()) customer.setPhoneNumber(updatedCustomer.getPhoneNumber());
+                if (!updatedCustomer.getEmailAddress().isEmpty()) customer.setEmailAddress(updatedCustomer.getEmailAddress());
+
+                customer.setIndexProject(updatedCustomer.getIndexProject());
+                customer.setLevel(updatedCustomer.getLevel());
+
+                result = true;
+                break;
+            }
+        }
+
+        if (result) {
+            // Ghi lại toàn bộ danh sách Customer đã cập nhật vào file
+            List<String> updatedData = new ArrayList<>();
+            for (Customer customer : customerList) {
+                updatedData.add(customer.getInfo());
+            }
+            ReadAndWriteData.writeToFile(customers, updatedData, NOT_APPEND); // Ghi đè file
+        }
+
+        return result;
     }
+
 
     @Override
     public void deleteCustomer(String id) {
@@ -108,6 +144,10 @@ public class CustomerService extends ShowProject implements ICustomerService {
         } else {
             System.out.println("Payment was already marked as 'Already.'. No changes made.");
         }
+    }
+
+    public void addBooking(Orders orders) {
+        bookingService.addBooking(orders);
     }
 
 }

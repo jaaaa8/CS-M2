@@ -36,7 +36,7 @@ public class Leader extends Employee {
 
     @Override
     public String getInfo(){
-        return super.getInfo()+"-"+ groupIndex;
+        return super.getInfo()+","+ groupIndex;
     }
 
     @Override
