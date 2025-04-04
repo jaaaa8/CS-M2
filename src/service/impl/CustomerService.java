@@ -2,10 +2,12 @@ package service.impl;
 
 import model.Customer;
 import service.ICustomerService;
+import util.CreateObjectByID;
 import util.ReadAndWriteData;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -44,7 +46,9 @@ public class CustomerService extends ShowProject implements ICustomerService {
 
     @Override
     public void addCustomer(Customer customer) {
-
+        List<String> customerData = new LinkedList<>();
+        customerData.add(customer.getInfo());
+        ReadAndWriteData.writeToFile(customers,customerData,APPEND);
     }
 
     @Override
@@ -53,7 +57,13 @@ public class CustomerService extends ShowProject implements ICustomerService {
     }
 
     @Override
-    public void deleteCustomer(Customer customer) {
+    public void deleteCustomer(String id) {
+        Customer customer = CreateObjectByID.getCustomerByID(id);
+        if(customer == null) {
+            return;
+        }
+        List<Customer> customerData = customerList();
+        customerData.removeIf(c -> c.getId().equals(customer.getId()));
 
     }
 

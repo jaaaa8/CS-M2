@@ -106,7 +106,7 @@ public class ManagerService implements IManagerService{
                 emp.setYearOfJoining(updatedEmployee.getYearOfJoining());
 
                 if (emp instanceof Leader && updatedEmployee instanceof Leader) {
-                    ((Leader) emp).setGrouptIndex(((Leader) updatedEmployee).getGrouptIndex());
+                    ((Leader) emp).setGroupIndex(((Leader) updatedEmployee).getGroupIndex());
                 }
                 if (emp instanceof Manager && updatedEmployee instanceof Manager) {
                     ((Manager) emp).setExperienceYear(((Manager) updatedEmployee).getExperienceYear());

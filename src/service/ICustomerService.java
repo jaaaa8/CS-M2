@@ -9,5 +9,5 @@ public interface ICustomerService {
     List<Customer> customerList();
     void addCustomer(Customer customer);
     boolean updateCustomer(String id);
-    void deleteCustomer(Customer customer);
+    void deleteCustomer(String id);
 }

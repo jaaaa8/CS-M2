@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Employee extends Person {
     protected int yearOfJoining;
-    private String typeOfEmployee;
+    protected String typeOfEmployee;
     protected int salary;
 
     public Employee(String name, String phoneNumber, String emailAddress, int indexProject, int yearOfJoining, String typeOfEmployee) {

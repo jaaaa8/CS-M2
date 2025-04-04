@@ -66,7 +66,7 @@ public class CreateObjectByID {
                         parts[3],  // emailAddress
                         Integer.parseInt(parts[4]), // indexProject
                         Integer.parseInt(parts[7]), // yearOfJoining
-                        parts[5],  // typeOfEmployee (chắc chắn là "leader")
+                        parts[5],  // typeOfEmployee
                         Integer.parseInt(parts[6]), // salary
                         parts[0],   // id
                         Integer.parseInt(parts[8]) // indexGroup
