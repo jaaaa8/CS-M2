@@ -19,7 +19,6 @@ public class ManagerService implements IManagerService, IShowSalary {
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
 
-    private final ProjectService projectService = new ProjectService();
 
     @Override
     public List<Employee> employeeList() {
@@ -131,38 +130,6 @@ public class ManagerService implements IManagerService, IShowSalary {
             ReadAndWriteData.writeToFile(employees, employeesData, NOT_APPEND);
         }
         return result;
-    }
-
-    public void addProject(Project project) {
-        projectService.addProject(project);
-    }
-
-    public void removeProject(String filePath) {
-        File projectFile = new File(filePath);
-        if (!projectFile.exists()) {
-            System.err.println("Project file not found: " + filePath);
-            return;
-        }
-        projectService.removeProject(filePath);
-    }
-
-    public boolean editProject(File projectFile, Project project) {
-        return projectService.editProject(projectFile, project);
-    }
-
-    public void showAllProjects() {
-        List<Project> projectList = projectService.projectList();
-
-        if (projectList.isEmpty()) {
-            System.out.println("No projects found!");
-            return;
-        }
-
-        System.out.println("List of Projects:");
-        for (int i = 0; i < projectList.size(); i++) {
-            Project project = projectList.get(i);
-            System.out.println(i+1+"." + project.getProjectName().replace(".csv", ""));
-        }
     }
 
     @Override

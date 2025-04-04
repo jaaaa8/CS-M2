@@ -107,6 +107,7 @@ public class ProjectService implements IManageProject, IEditProject {
         bookingService.removeBooking(idOrder);
     }
 
+    @Override
     public List<Project> projectList() {
         List<Project> projectList = new ArrayList<>();
 
@@ -185,5 +186,19 @@ public class ProjectService implements IManageProject, IEditProject {
         return projectList;
     }
 
+    @Override
+    public void showAllProjects() {
+        List<Project> projectList = projectList();
 
+        if (projectList.isEmpty()) {
+            System.out.println("No projects found!");
+            return;
+        }
+
+        System.out.println("List of Projects:");
+        for (int i = 0; i < projectList.size(); i++) {
+            Project project = projectList.get(i);
+            System.out.println(i+1+"." + project.getProjectName().replace(".csv", ""));
+        }
+    }
 }

@@ -165,7 +165,7 @@ public class CreateObjectByID {
                     String customerId = parts[1];
                     String description = parts[2];
                     String typeOfOrder = parts[3];
-                    long budget = Long.parseLong(parts[4]);
+                    int budget = Integer.parseInt(parts[4]);
 
                     Customer customer = getCustomerByID(customerId);
                     if (customer == null) {

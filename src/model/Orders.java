@@ -1,17 +1,27 @@
 package model;
 
+import util.IDByTimeStampGenerator;
+
 public class Orders {
     private int id;
     private Customer customer;
     private String description;
     private String typeOfOrder;
-    private long budget;
+    private int budget;
 
     public Orders() {
     }
 
-    public Orders(int id, Customer customer,String description, String typeOfOrder, long budget) {
+    public Orders(int id, Customer customer,String description, String typeOfOrder, int budget) {
         this.id = id;
+        this.customer = customer;
+        this.description = description;
+        this.typeOfOrder = typeOfOrder;
+        this.budget = budget;
+    }
+
+    public Orders(Customer customer, String description, String typeOfOrder, int budget) {
+        this.id = IDByTimeStampGenerator.generateId();
         this.customer = customer;
         this.description = description;
         this.typeOfOrder = typeOfOrder;
@@ -54,11 +64,11 @@ public class Orders {
         this.typeOfOrder = typeOfOrder;
     }
 
-    public long getBudget() {
+    public int getBudget() {
         return budget;
     }
 
-    public void setBudget(long budget) {
+    public void setBudget(int budget) {
         this.budget = budget;
     }
 }

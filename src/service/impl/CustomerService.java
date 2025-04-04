@@ -19,8 +19,6 @@ public class CustomerService implements ICustomerService, IShowProject {
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
 
-    private final BookingService bookingService = new BookingService();
-
     @Override
     public List<Customer> customerList() {
         List<Customer> customerData = new ArrayList<>();
@@ -146,10 +144,6 @@ public class CustomerService implements ICustomerService, IShowProject {
         } else {
             System.out.println("Payment was already marked as 'Already.'. No changes made.");
         }
-    }
-
-    public void addBooking(Orders orders) {
-        bookingService.addBooking(orders);
     }
 
     @Override

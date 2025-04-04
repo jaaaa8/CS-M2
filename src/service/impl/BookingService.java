@@ -33,7 +33,7 @@ public class BookingService implements IBooking {
                 String customerId = partsData[1];
                 String description = partsData[2];
                 String typeOfOrder = partsData[3];
-                long budget = Long.parseLong(partsData[4]);
+                int budget = Integer.parseInt(partsData[4]);
 
                 Customer customer = CreateObjectByID.getCustomerByID(customerId);
                 if (customer == null) {

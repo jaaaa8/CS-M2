@@ -27,6 +27,18 @@ public class Project {
         this.isPaid = isPaid;
     }
 
+    public Project(String projectName, String startDate, String expectedEndDate, Leader leader, Customer customer, List<Employee> employees, String typeOfProject, boolean isPaid) {
+        this.idProject = 0;
+        this.projectName = projectName;
+        this.startDate = startDate;
+        this.expectedEndDate = expectedEndDate;
+        this.leader = leader;
+        this.customer = customer;
+        this.employees = employees;
+        this.typeOfProject = typeOfProject;
+        this.isPaid = isPaid;
+    }
+
     public int getIdProject() {
         return idProject;
     }

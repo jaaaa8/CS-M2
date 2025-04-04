@@ -11,7 +11,6 @@ import java.io.File;
 import java.util.List;
 
 public class LeaderService implements IEditProject, IShowSalary, IShowProject {
-    private final BookingService bookingService = new BookingService();
 
     @Override
     public boolean editProject(File projectFile, Project updatedProject) {
@@ -55,10 +54,6 @@ public class LeaderService implements IEditProject, IShowSalary, IShowProject {
             return;
         }
         System.out.println("Luong cua ban la: "+leader.baseSalary());
-    }
-
-    public void addBooking(Orders orders) {
-        bookingService.addBooking(orders);
     }
 
     @Override

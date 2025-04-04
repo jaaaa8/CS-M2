@@ -12,7 +12,6 @@ import java.io.File;
 import java.util.List;
 
 public class EmployeeService implements IShowSalary, IShowProject {
-    private final BookingService bookingService = new BookingService();
 
     @Override
     public void showSalary(String id) {
@@ -21,10 +20,6 @@ public class EmployeeService implements IShowSalary, IShowProject {
             return;
         }
         System.out.println("Luong cua ban la: "+employee.baseSalary());
-    }
-
-    public void addBooking(Orders orders) {
-        bookingService.addBooking(orders);
     }
 
     @Override
