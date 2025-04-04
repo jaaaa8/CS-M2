@@ -13,6 +13,9 @@ import java.util.List;
 
 public class ProjectService implements IManageProject, IEditProject {
     private static final String projectFolderPath = "E:\\CS M2\\src\\repository\\project";
+    private static final File projectFolder = new File(projectFolderPath);
+
+    private final BookingService bookingService = new BookingService();
 
     @Override
     public boolean editProject(File projectFile, Project updatedProject) {
@@ -91,13 +94,21 @@ public class ProjectService implements IManageProject, IEditProject {
     }
 
     @Override
-    public void addProject(Orders orders) {
-
+    public void addProject(int idOrder, String projectName, String startDate,String expectedEndDate, String LeaderID, List<Employee> employees) {
+        Orders order = CreateObjectByID.getOrdersByID(idOrder);
+        if (order == null) {
+            System.err.println("Order does not exist");
+            return;
+        }
+        Leader leader = CreateObjectByID.getLeaderByID(LeaderID);
+        int projectID = CreateProjectFileData.getLatestIndex(projectFolder) + 1;
+        Project project = new Project(projectID, projectName,startDate,expectedEndDate,leader,order.getCustomer(),employees,order.getTypeOfOrder(),false);
+        CreateProjectFileData.createProjectFile(projectFolderPath, project);
+        bookingService.removeBooking(idOrder);
     }
 
     public List<Project> projectList() {
         List<Project> projectList = new ArrayList<>();
-        File projectFolder = new File("projects");
 
         if (!projectFolder.exists() || !projectFolder.isDirectory()) {
             System.err.println("Project directory not found!");
@@ -112,39 +123,48 @@ public class ProjectService implements IManageProject, IEditProject {
 
         for (File projectFile : projectFiles) {
             List<String> projectData = ReadAndWriteData.readFile(projectFile);
-            if (projectData.isEmpty()) {
-                System.err.println("Skipping empty file: " + projectFile.getName());
+            if (projectData.size() < 9) { // Đảm bảo file có đủ dữ liệu
+                System.err.println("Skipping invalid file: " + projectFile.getName());
                 continue;
             }
 
             try {
-                // Trích xuất dữ liệu từ danh sách projectData
-                String projectName = projectData.get(0).replace("Project Name: ", "").trim();
-                String customerId = projectData.get(1).replace("Customer: ", "").trim();
-                String typeOfProject = projectData.get(2).replace("Project Type: ", "").trim();
-                String leaderId = projectData.get(3).replace("Leader: ", "").trim();
+                // Trích xuất dữ liệu từ file
+                int indexID = Integer.parseInt(projectData.get(0).replace("ID: ", "").trim());
+                String projectName = projectData.get(1).replace("Project Name: ", "").trim();
+                String customerId = projectData.get(2).replace("Customer: ", "").trim();
+                String typeOfProject = projectData.get(3).replace("Project Type: ", "").trim();
+                String leaderId = projectData.get(4).replace("Leader: ", "").trim();
 
                 // Lấy danh sách nhân viên
-                String employeeLine = projectData.get(4).replace("List employees: ", "").trim();
+                String employeeLine = projectData.get(5).replace("List employees: ", "").trim();
                 List<Employee> employees = new ArrayList<>();
                 if (!employeeLine.equals("None")) {
                     String[] employeeIds = employeeLine.split(",");
                     for (String empId : employeeIds) {
-                        employees.add(CreateObjectByID.getEmployeeByID(empId.trim()));
+                        Employee employee = CreateObjectByID.getEmployeeByID(empId.trim());
+                        if (employee != null) {
+                            employees.add(employee);
+                        }
                     }
                 }
 
-                String startDate = projectData.get(5).replace("Start Date: ", "").trim();
-                String expectedEndDate = projectData.get(6).replace("Expected End Date: ", "").trim();
-                boolean isPaid = projectData.get(7).replace("Pay: ", "").trim().equals("Already.");
+                String startDate = projectData.get(6).replace("Start Date: ", "").trim();
+                String expectedEndDate = projectData.get(7).replace("Expected End Date: ", "").trim();
+                boolean isPaid = projectData.get(8).replace("Pay: ", "").trim().equals("Already.");
 
                 // Tạo đối tượng Leader và Customer từ ID
                 Leader leader = CreateObjectByID.getLeaderByID(leaderId);
                 Customer customer = CreateObjectByID.getCustomerByID(customerId);
 
+                if (leader == null || customer == null) {
+                    System.err.println("Invalid leader or customer in file: " + projectFile.getName());
+                    continue;
+                }
+
                 // Tạo Project từ dữ liệu
                 Project project = new Project(
-                        projectList.size() + 1,  // indexID tự tăng
+                        indexID,
                         projectName,
                         startDate,
                         expectedEndDate,
@@ -159,10 +179,11 @@ public class ProjectService implements IManageProject, IEditProject {
                 projectList.add(project);
 
             } catch (Exception e) {
-                System.err.println("Error parsing file: " + projectFile.getName());
+                System.err.println("Error parsing file: " + projectFile.getName() + " -> " + e.getMessage());
             }
         }
         return projectList;
     }
+
 
 }

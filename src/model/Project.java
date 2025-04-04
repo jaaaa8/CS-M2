@@ -3,7 +3,7 @@ package model;
 import java.util.List;
 
 public class Project {
-    private int indexID;
+    private int idProject;
     private String projectName;
     private String startDate;
     private String expectedEndDate;
@@ -15,8 +15,8 @@ public class Project {
 
     public Project(){}
 
-    public Project(int indexID, String projectName, String startDate, String expectedEndDate, Leader leader, Customer customer, List<Employee> employees, String typeOfProject, boolean isPaid) {
-        this.indexID = indexID;
+    public Project(int idProject, String projectName, String startDate, String expectedEndDate, Leader leader, Customer customer, List<Employee> employees, String typeOfProject, boolean isPaid) {
+        this.idProject = idProject;
         this.projectName = projectName;
         this.startDate = startDate;
         this.expectedEndDate = expectedEndDate;
@@ -25,6 +25,14 @@ public class Project {
         this.employees = employees;
         this.typeOfProject = typeOfProject;
         this.isPaid = isPaid;
+    }
+
+    public int getIdProject() {
+        return idProject;
+    }
+
+    public void setIdProject(int idProject) {
+        this.idProject = idProject;
     }
 
     public Leader getLeader() {
@@ -49,14 +57,6 @@ public class Project {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public int getIndexID() {
-        return indexID;
-    }
-
-    public void setIndexID(int indexID) {
-        this.indexID = indexID;
     }
 
     public String getProjectName() {

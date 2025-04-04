@@ -8,71 +8,7 @@ import java.util.List;
 public class CreateObjectByID {
     private static final File employeeFile =  new File("E:\\CS M2\\src\\repository\\employees.csv");
     private static final File customerFile =  new File("E:\\CS M2\\src\\repository\\customers.csv");
-
-    public static Person getPersonByID(String id) {
-        List<String> employeeData = ReadAndWriteData.readFile(employeeFile);
-        for (String line : employeeData) {
-            String[] partsData = line.split(",");
-            if (partsData.length < 8 || !partsData[0].equals(id)) {
-                continue;
-            }
-
-            try {
-                String name = partsData[1];
-                String phoneNumber = partsData[2];
-                String emailAddress = partsData[3];
-                int indexProject = Integer.parseInt(partsData[4]);
-                String typeOfEmployee = partsData[5];
-                int salary = Integer.parseInt(partsData[6]);
-                int yearOfJoining = Integer.parseInt(partsData[7]);
-
-                return switch (typeOfEmployee.toLowerCase()) {
-                    case "employee" ->
-                            new Employee(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee, salary, id);
-                    case "leader" -> {
-                        int indexGroup = Integer.parseInt(partsData[8]);
-                        yield new Leader(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee, salary, id, indexGroup);
-                    }
-                    case "manager" -> {
-                        int experienceYear = Integer.parseInt(partsData[8]);
-                        yield new Manager(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee, salary, id, experienceYear);
-                    }
-                    default -> {
-                        System.err.println("Invalid type of employee: " + typeOfEmployee);
-                        yield null;
-                    }
-                };
-            } catch (Exception e) {
-                System.err.println("Error parsing employee data for ID: " + id);
-                return null;
-            }
-        }
-
-        // Đọc danh sách khách hàng
-        List<String> customerData = ReadAndWriteData.readFile(customerFile);
-        for (String line : customerData) {
-            String[] partsData = line.split(",");
-            if (partsData.length < 6 || !partsData[0].equals(id)) {
-                continue;
-            }
-
-            try {
-                String name = partsData[1];
-                String phoneNumber = partsData[2];
-                String emailAddress = partsData[3];
-                int indexProject = Integer.parseInt(partsData[4]);
-                int level = Integer.parseInt(partsData[5]);
-
-                return new Customer(name, phoneNumber, emailAddress, indexProject, level, id);
-            } catch (Exception e) {
-                System.err.println("Error parsing customer data for ID: " + id);
-                return null;
-            }
-        }
-
-        System.err.println("No person found with ID: " + id);
-        return null;
-    }
+    private static final File orderFile =  new File("E:\\CS M2\\src\\repository\\orders.csv");
 
     public static Employee getEmployeeByID(String id) {
         List<String> employeeData = ReadAndWriteData.readFile(employeeFile);
@@ -179,8 +115,7 @@ public class CreateObjectByID {
     }
 
     public static Manager getManagerByID(String id) {
-        File employeesFile = new File("E:\\CS M2\\src\\repository\\employees.csv");
-        List<String> employeeData = ReadAndWriteData.readFile(employeesFile);
+        List<String> employeeData = ReadAndWriteData.readFile(employeeFile);
 
         for (String line : employeeData) {
             String[] parts = line.split(",");
@@ -211,6 +146,40 @@ public class CreateObjectByID {
         }
 
         System.err.println("Manager with ID " + id + " not found.");
+        return null;
+    }
+
+    public static Orders getOrdersByID(int id) {
+        List<String> ordersData = ReadAndWriteData.readFile(orderFile);
+
+        for (String line : ordersData) {
+            String[] parts = line.split(",");
+            if (parts.length < 5) {
+                System.err.println("Invalid order data: " + line);
+                continue;
+            }
+
+            try {
+                int orderId = Integer.parseInt(parts[0]);
+                if (orderId == id) {
+                    String customerId = parts[1];
+                    String description = parts[2];
+                    String typeOfOrder = parts[3];
+                    long budget = Long.parseLong(parts[4]);
+
+                    Customer customer = getCustomerByID(customerId);
+                    if (customer == null) {
+                        System.err.println("Customer not found for ID: " + customerId);
+                        return null;
+                    }
+
+                    return new Orders(orderId, customer, description, typeOfOrder, budget);
+                }
+            } catch (Exception e) {
+                System.err.println("Error parsing order data: " + line);
+            }
+        }
+
         return null;
     }
 

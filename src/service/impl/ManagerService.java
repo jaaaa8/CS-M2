@@ -159,8 +159,9 @@ public class ManagerService implements IManagerService, IShowSalary {
         }
 
         System.out.println("List of Projects:");
-        for (Project project : projectList) {
-            System.out.println("- " + project.getProjectName().replace(".csv", ""));
+        for (int i = 0; i < projectList.size(); i++) {
+            Project project = projectList.get(i);
+            System.out.println(i+1+"." + project.getProjectName().replace(".csv", ""));
         }
     }
 

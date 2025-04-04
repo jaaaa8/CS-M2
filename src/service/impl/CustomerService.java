@@ -2,7 +2,9 @@ package service.impl;
 
 import model.Customer;
 import model.Orders;
+import model.Person;
 import service.ICustomerService;
+import service.IShowProject;
 import util.CreateObjectByID;
 import util.ReadAndWriteData;
 
@@ -12,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class CustomerService extends ShowProject implements ICustomerService {
+public class CustomerService implements ICustomerService, IShowProject {
     private static final File customers = new File("E:\\CS M2\\src\\repository\\customers.csv");
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
@@ -85,7 +87,7 @@ public class CustomerService extends ShowProject implements ICustomerService {
             for (Customer customer : customerList) {
                 updatedData.add(customer.getInfo());
             }
-            ReadAndWriteData.writeToFile(customers, updatedData, NOT_APPEND); // Ghi đè file
+            ReadAndWriteData.writeToFile(customers, updatedData, NOT_APPEND);
         }
 
         return result;
@@ -94,13 +96,13 @@ public class CustomerService extends ShowProject implements ICustomerService {
 
     @Override
     public void deleteCustomer(String id) {
-        Customer customer = CreateObjectByID.getCustomerByID(id);
-        if(customer == null) {
-            return;
-        }
         List<Customer> customerData = customerList();
-        customerData.removeIf(c -> c.getId().equals(customer.getId()));
-
+        customerData.removeIf(c -> c.getId().equals(id));
+        List<String> updatedData = new ArrayList<>();
+        for (Customer customer : customerData) {
+            updatedData.add(customer.getInfo());
+        }
+        ReadAndWriteData.writeToFile(customers,updatedData,NOT_APPEND);
     }
 
     @Override
@@ -150,4 +152,31 @@ public class CustomerService extends ShowProject implements ICustomerService {
         bookingService.addBooking(orders);
     }
 
+    @Override
+    public void showProject(String id) {
+        Customer customer = CreateObjectByID.getCustomerByID(id);
+        if (customer == null) {
+            return;
+        }
+        int idProject = customer.getIndexProject();
+        if (idProject == 0) {
+            System.out.println("This customer is not assigned to any project.");
+            return;
+        }
+
+        File projectFolder = new File("E:\\CS M2\\src\\repository\\project");
+        File[] projectFiles = projectFolder.listFiles((dir, name) -> name.startsWith(String.format("%03d", idProject)));
+
+        if (projectFiles == null || projectFiles.length == 0) {
+            System.out.println("No project found for ID: " + idProject);
+            return;
+        }
+
+        File projectFile = projectFiles[0];
+        List<String> projectData = ReadAndWriteData.readFile(projectFile);
+        System.out.println("\nProject Details for ID " + idProject + ":");
+        for (String line : projectData) {
+            System.out.println(line);
+        }
+    }
 }

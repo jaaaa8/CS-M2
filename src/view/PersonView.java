@@ -7,7 +7,7 @@ import java.util.Scanner;
 public abstract class PersonView<E extends Person>{
     protected Scanner sc = new Scanner(System.in);
 
-    public E input(){
+    public E inputPerson(){
         System.out.println("Tên: ");
         String name = sc.nextLine();
         System.out.println("SDT: ");

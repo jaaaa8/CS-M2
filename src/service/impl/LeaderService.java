@@ -1,10 +1,8 @@
 package service.impl;
 
-import model.Employee;
-import model.Leader;
-import model.Orders;
-import model.Project;
+import model.*;
 import service.IEditProject;
+import service.IShowProject;
 import service.IShowSalary;
 import util.CreateObjectByID;
 import util.ReadAndWriteData;
@@ -12,7 +10,7 @@ import util.ReadAndWriteData;
 import java.io.File;
 import java.util.List;
 
-public class LeaderService extends ShowProject implements IEditProject, IShowSalary {
+public class LeaderService implements IEditProject, IShowSalary, IShowProject {
     private final BookingService bookingService = new BookingService();
 
     @Override
@@ -61,5 +59,33 @@ public class LeaderService extends ShowProject implements IEditProject, IShowSal
 
     public void addBooking(Orders orders) {
         bookingService.addBooking(orders);
+    }
+
+    @Override
+    public void showProject(String id) {
+        Leader leader = CreateObjectByID.getLeaderByID(id);
+        if (leader == null) {
+            return;
+        }
+        int idProject = leader.getIndexProject();
+        if (idProject == 0) {
+            System.out.println("This leader is not assigned to any project.");
+            return;
+        }
+
+        File projectFolder = new File("E:\\CS M2\\src\\repository\\project");
+        File[] projectFiles = projectFolder.listFiles((dir, name) -> name.startsWith(String.format("%03d", idProject)));
+
+        if (projectFiles == null || projectFiles.length == 0) {
+            System.out.println("No project found for ID: " + idProject);
+            return;
+        }
+
+        File projectFile = projectFiles[0];
+        List<String> projectData = ReadAndWriteData.readFile(projectFile);
+        System.out.println("\nProject Details for ID " + idProject + ":");
+        for (String line : projectData) {
+            System.out.println(line);
+        }
     }
 }
