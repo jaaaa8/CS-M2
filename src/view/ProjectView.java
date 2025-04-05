@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ProjectView {
-    private static final Pattern ID_PATTERN = Pattern.compile("^[A-Z]{2}\\d{7}$");
+    private static final Pattern ID_PATTERN = Pattern.compile("^[A-Z]\\d{10}$");
     private static final Scanner scanner = new Scanner(System.in);
 
     public Project inputProject() {
@@ -36,30 +36,30 @@ public class ProjectView {
             expectedEndDate = scanner.nextLine();
 
             while (true) {
-                System.out.print("Nhập ID của Leader (VD: LE1234567): ");
+                System.out.print("Nhập ID của Leader (VD: L1234567): ");
                 String leaderId = scanner.nextLine().trim();
                 if (isValidId(leaderId)) {
                     leader = CreateObjectByID.getLeaderByID(leaderId);
                     if (leader != null) break;
                     else System.out.println("Không tìm thấy Leader với ID này.");
                 } else {
-                    System.out.println("ID không hợp lệ! Định dạng: 2 chữ in hoa + 7 số.");
+                    System.out.println("ID không hợp lệ! Định dạng: 1 chữ in hoa + 10 số.");
                 }
             }
 
             while (true) {
-                System.out.print("Nhập ID của Customer (VD: CU1234567): ");
+                System.out.print("Nhập ID của Customer (VD: C1234567): ");
                 String customerId = scanner.nextLine().trim();
                 if (isValidId(customerId)) {
                     customer = CreateObjectByID.getCustomerByID(customerId);
                     if (customer != null) break;
                     else System.out.println("Không tìm thấy Customer với ID này.");
                 } else {
-                    System.out.println("ID không hợp lệ! Định dạng: 2 chữ in hoa + 7 số.");
+                    System.out.println("ID không hợp lệ! Định dạng: 1 chữ in hoa + 10 số.");
                 }
             }
 
-            System.out.println("Nhập ID các nhân viên (VD: EM1234567) - nhập 'x' để kết thúc:");
+            System.out.println("Nhập ID các nhân viên (VD: E1234567) - nhập 'x' để kết thúc:");
             while (true) {
                 System.out.print("ID nhân viên: ");
                 String empId = scanner.nextLine().trim();
@@ -72,7 +72,7 @@ public class ProjectView {
                         System.out.println("Không tìm thấy nhân viên với ID này.");
                     }
                 } else {
-                    System.out.println("ID không hợp lệ! Định dạng: 2 chữ in hoa + 7 số.");
+                    System.out.println("ID không hợp lệ! Định dạng: 1 chữ in hoa + 10 số.");
                 }
             }
 

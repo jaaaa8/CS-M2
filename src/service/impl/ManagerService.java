@@ -3,19 +3,17 @@ package service.impl;
 import model.Employee;
 import model.Leader;
 import model.Manager;
-import model.Project;
 import service.IManagerService;
 import service.IShowSalary;
 import util.CreateObjectByID;
 import util.ReadAndWriteData;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ManagerService implements IManagerService, IShowSalary {
-    private static final File employees = new File("E:\\CS M2\\src\\repository\\employees.csv");
+    private static final String employeesFilePath = "E:\\CS M2\\src\\repository\\employees.csv";
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
 
@@ -23,7 +21,7 @@ public class ManagerService implements IManagerService, IShowSalary {
     @Override
     public List<Employee> employeeList() {
         List<Employee> employeeData = new ArrayList<>();
-        List<String> linesData = ReadAndWriteData.readFile(employees);
+        List<String> linesData = ReadAndWriteData.readFile(employeesFilePath);
 
         for (String line : linesData) {
             String[] partsData = line.split(",");
@@ -66,7 +64,7 @@ public class ManagerService implements IManagerService, IShowSalary {
     public void addEmployee(Employee employee) {
         List<String> employeeData = new LinkedList<>();
         employeeData.add(employee.getInfo());
-        ReadAndWriteData.writeToFile(employees,employeeData,APPEND);
+        ReadAndWriteData.writeToFile(employeesFilePath,employeeData,APPEND);
     }
 
     @Override
@@ -77,7 +75,7 @@ public class ManagerService implements IManagerService, IShowSalary {
         for (Employee emp : employeeData) {
             employeesData.add(emp.getInfo());
         }
-        ReadAndWriteData.writeToFile(employees,employeesData,NOT_APPEND);
+        ReadAndWriteData.writeToFile(employeesFilePath,employeesData,NOT_APPEND);
     }
 
     @Override
@@ -126,7 +124,7 @@ public class ManagerService implements IManagerService, IShowSalary {
             for (Employee emp : employeeData) {
                 employeesData.add(emp.getInfo());
             }
-            ReadAndWriteData.writeToFile(employees, employeesData, NOT_APPEND);
+            ReadAndWriteData.writeToFile(employeesFilePath, employeesData, NOT_APPEND);
         }
         return result;
     }

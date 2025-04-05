@@ -5,5 +5,5 @@ import model.Project;
 import java.io.File;
 
 public interface IEditProject {
-    boolean editProject(File projectFile, Project project);
+    boolean editProject(String pathName, Project project);
 }

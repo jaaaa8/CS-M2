@@ -6,20 +6,19 @@ import service.IBooking;
 import util.CreateObjectByID;
 import util.ReadAndWriteData;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class BookingService implements IBooking {
-    private static final File orders = new File("E:\\CS M2\\src\\repository\\orders");
+    private static final String ordersFilePath = "E:\\CS M2\\src\\repository\\orders";
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
 
     @Override
     public List<Orders> ordersList() {
         List<Orders> ordersList = new ArrayList<>();
-        List<String> linesData = ReadAndWriteData.readFile(orders);
+        List<String> linesData = ReadAndWriteData.readFile(ordersFilePath);
 
         for (String line : linesData) {
             String[] partsData = line.split(",");
@@ -55,7 +54,7 @@ public class BookingService implements IBooking {
     public void addBooking(Orders order) {
         List<String> bookingData = new LinkedList<>();
         bookingData.add(order.getInfo());
-        ReadAndWriteData.writeToFile(orders,bookingData,APPEND);
+        ReadAndWriteData.writeToFile(ordersFilePath,bookingData,APPEND);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class BookingService implements IBooking {
         for (Orders order : ordersList) {
             ordersData.add(order.getInfo());
         }
-        ReadAndWriteData.writeToFile(orders,ordersData,NOT_APPEND);
+        ReadAndWriteData.writeToFile(ordersFilePath,ordersData,NOT_APPEND);
     }
 
     @Override
@@ -98,7 +97,7 @@ public class BookingService implements IBooking {
             for (Orders order : ordersData) {
                 ordersLines.add(order.getInfo());
             }
-            ReadAndWriteData.writeToFile(orders, ordersLines, NOT_APPEND);
+            ReadAndWriteData.writeToFile(ordersFilePath, ordersLines, NOT_APPEND);
         }
 
         return result;

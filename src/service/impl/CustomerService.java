@@ -1,8 +1,6 @@
 package service.impl;
 
 import model.Customer;
-import model.Orders;
-import model.Person;
 import service.ICustomerService;
 import service.IShowProject;
 import util.CreateObjectByID;
@@ -15,14 +13,14 @@ import java.util.List;
 
 
 public class CustomerService implements ICustomerService, IShowProject {
-    private static final File customers = new File("E:\\CS M2\\src\\repository\\customers.csv");
+    private static final String customersFilePath = "E:\\CS M2\\src\\repository\\customers.csv";
     private static final boolean APPEND = true;
     private static final boolean NOT_APPEND = false;
 
     @Override
     public List<Customer> customerList() {
         List<Customer> customerData = new ArrayList<>();
-        List<String> linesData = ReadAndWriteData.readFile(customers);
+        List<String> linesData = ReadAndWriteData.readFile(customersFilePath);
 
         for (String line : linesData) {
             String[] partsData = line.split(",");
@@ -51,7 +49,7 @@ public class CustomerService implements ICustomerService, IShowProject {
     public void addCustomer(Customer customer) {
         List<String> customerData = new LinkedList<>();
         customerData.add(customer.getInfo());
-        ReadAndWriteData.writeToFile(customers,customerData,APPEND);
+        ReadAndWriteData.writeToFile(customersFilePath,customerData,APPEND);
     }
 
     @Override
@@ -84,7 +82,7 @@ public class CustomerService implements ICustomerService, IShowProject {
             for (Customer customer : customerList) {
                 updatedData.add(customer.getInfo());
             }
-            ReadAndWriteData.writeToFile(customers, updatedData, NOT_APPEND);
+            ReadAndWriteData.writeToFile(customersFilePath, updatedData, NOT_APPEND);
         }
 
         return result;
@@ -98,7 +96,7 @@ public class CustomerService implements ICustomerService, IShowProject {
         for (Customer customer : customerData) {
             updatedData.add(customer.getInfo());
         }
-        ReadAndWriteData.writeToFile(customers,updatedData,NOT_APPEND);
+        ReadAndWriteData.writeToFile(customersFilePath,updatedData,NOT_APPEND);
     }
 
     @Override
@@ -120,7 +118,7 @@ public class CustomerService implements ICustomerService, IShowProject {
             return;
         }
 
-        File projectFile = projectFiles[0];
+        String projectFile = projectFiles[0].getName();
 
         // Đọc dữ liệu từ file
         List<String> projectData = ReadAndWriteData.readFile(projectFile);

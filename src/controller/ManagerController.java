@@ -172,7 +172,7 @@ public class ManagerController {
 
             Project updatedProject = projectView.inputProject();
             if (updatedProject != null) {
-                projectService.editProject(projectFile, updatedProject);
+                projectService.editProject(projectFolderPath + fileName, updatedProject);
             } else {
                 System.out.println("Không thể cập nhật project.");
             }

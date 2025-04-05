@@ -13,7 +13,8 @@ import java.util.List;
 public class LeaderService implements IEditProject, IShowSalary, IShowProject {
 
     @Override
-    public boolean editProject(File projectFile, Project updatedProject) {
+    public boolean editProject(String pathName, Project updatedProject) {
+        File projectFile = new File(pathName);
         if (!projectFile.exists()) {
             System.err.println("Project file does not exist");
             return false;
@@ -37,7 +38,7 @@ public class LeaderService implements IEditProject, IShowSalary, IShowProject {
         }
 
         if (updated) {
-            ReadAndWriteData.writeToFile(projectFile, projectData,false);
+            ReadAndWriteData.writeToFile(pathName, projectData,false);
             System.out.println("Project updated successfully");
         } else {
             System.out.println("No changes were made to the project.");

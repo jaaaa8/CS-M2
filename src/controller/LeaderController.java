@@ -67,7 +67,7 @@ public class LeaderController {
             return;
         }
 
-        File projectFile = projectFiles[0];
+        String projectFile = projectFiles[0].getName();
 
         System.out.println("Nhập danh sách ID nhân viên mới (phân cách bởi dấu phẩy): ");
         String[] ids = scanner.nextLine().split(",");
