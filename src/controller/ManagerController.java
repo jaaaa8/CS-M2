@@ -3,14 +3,15 @@ package controller;
 import model.Employee;
 import model.Manager;
 import model.Project;
-import service.impl.BookingService;
-import service.impl.ManagerService;
-import service.impl.ProjectService;
+import service.impl.*;
 import util.CreateObjectByID;
 import view.EmployeeView;
+import view.LeaderView;
+import view.ManagerView;
 import view.ProjectView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,6 +21,8 @@ public class ManagerController {
     private final ProjectService projectService = new ProjectService();
     private final ProjectView projectView = new ProjectView();
     private final BookingService bookingService = new BookingService();
+    private final CustomerService customerService = new CustomerService();
+    private static final String projectFolderPath = "E:\\CS M2\\src\\repository\\project";
 
     public void showDashBoard(Manager manager) {
         boolean flag = true;
@@ -33,8 +36,9 @@ public class ManagerController {
             System.out.println("5. Thêm nhân viên");
             System.out.println("6. Sửa thông tin nhân viên");
             System.out.println("7. Xóa nhân viên");
-            System.out.println("8. Xem lương");
-            System.out.println("9. Thoát");
+            System.out.println("8. Xóa khách hàng");
+            System.out.println("9. Xem lương");
+            System.out.println("10. Thoát");
             System.out.print("Nhập lựa chọn: ");
 
             String choice = sc.nextLine();
@@ -85,26 +89,52 @@ public class ManagerController {
         System.out.println("Danh sách orders có sẵn:");
         bookingService.showAllOrder();
 
-        System.out.print("Nhập ID của Order muốn tạo project: ");
+        System.out.print("Nhập ID của Order muốn tạo project (10 chữ số): ");
         try {
-            int idOrder = Integer.parseInt(sc.nextLine());
+            String orderInput = sc.nextLine();
+            if (!orderInput.matches("\\d{10}")) {
+                System.err.println("Order ID phải là số nguyên có đúng 10 chữ số.");
+                return;
+            }
+            int idOrder = Integer.parseInt(orderInput);
+
             System.out.print("Nhập tên project: ");
             String projectName = sc.nextLine();
+
             System.out.print("Nhập ngày bắt đầu (dd/MM/yyyy): ");
             String startDate = sc.nextLine();
+            if (!startDate.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                System.err.println("Ngày bắt đầu không đúng định dạng (dd/MM/yyyy).");
+                return;
+            }
+
             System.out.print("Nhập ngày kết thúc dự kiến (dd/MM/yyyy): ");
             String expectedEndDate = sc.nextLine();
-            System.out.print("Nhập ID Leader: ");
-            String leaderID = sc.nextLine();
+            if (!expectedEndDate.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                System.err.println("Ngày kết thúc không đúng định dạng (dd/MM/yyyy).");
+                return;
+            }
 
-            // Danh sách nhân viên
+            System.out.print("Nhập ID Leader (VD: LE1234567): ");
+            String leaderID = sc.nextLine();
+            if (!ProjectView.isValidId(leaderID)) {
+                System.err.println("Leader ID không hợp lệ. Phải có 2 chữ viết hoa và 7 số nguyên đằng sau.");
+                return;
+            }
+
             System.out.println("Nhập ID các nhân viên (nhập 'x' để kết thúc):");
-            List<Employee> employees = new java.util.ArrayList<>();
+            List<Employee> employees = new ArrayList<>();
             while (true) {
                 System.out.print("ID: ");
                 String id = sc.nextLine();
                 if (id.equalsIgnoreCase("x")) break;
-                model.Employee emp = CreateObjectByID.getEmployeeByID(id);
+
+                if (!ProjectView.isValidId(id)) {
+                    System.err.println("ID nhân viên không hợp lệ. Phải có 2 chữ viết hoa và 7 số nguyên đằng sau. Bỏ qua.");
+                    continue;
+                }
+
+                Employee emp = CreateObjectByID.getEmployeeByID(id);
                 if (emp != null) {
                     employees.add(emp);
                 } else {
@@ -119,30 +149,87 @@ public class ManagerController {
         }
     }
 
+
     private void editProject() {
-        projectService.showAllProjects();
-        System.out.print("Nhập tên file project cần sửa (VD: Project1.csv): ");
-        String fileName = sc.nextLine();
-        File projectFile = new File("E:\\CS M2\\src\\repository\\project\\" + fileName);
-        Project updatedProject = projectView.inputProject();
-        if (updatedProject != null) {
-            projectService.editProject(projectFile, updatedProject);
-        } else {
-            System.out.println("Không thể cập nhật project.");
+        try {
+            projectService.showAllProjects();
+            System.out.print("Nhập tên file project cần sửa (VD: 001EXJACK.csv): ");
+            String fileName = sc.nextLine().trim();
+
+            if (!fileName.matches("\\d{3}[A-Z]+\\.csv")) {
+                System.err.println("Tên file không hợp lệ. Định dạng đúng là 3 số đầu + chữ IN HOA + '.csv'.");
+                return;
+            }
+
+            File projectFile = new File(projectFolderPath + fileName);
+            if (!projectFile.exists()) {
+                System.err.println("File không tồn tại: " + projectFile.getName());
+                return;
+            }
+
+            Project updatedProject = projectView.inputProject();
+            if (updatedProject != null) {
+                projectService.editProject(projectFile, updatedProject);
+            } else {
+                System.out.println("Không thể cập nhật project.");
+            }
+        } catch (Exception e) {
+            System.err.println("Đã xảy ra lỗi khi chỉnh sửa project: " + e.getMessage());
         }
     }
 
+
     private void deleteProject() {
-        projectService.showAllProjects();
-        System.out.print("Nhập tên file project cần xóa (VD: Project1.csv): ");
-        String filePath = "E:\\CS M2\\src\\repository\\project\\" + sc.nextLine();
-        projectService.removeProject(filePath);
+        try {
+            projectService.showAllProjects();
+            System.out.print("Nhập tên file project cần xóa (VD: 001EXJACK.csv): ");
+            String fileName = sc.nextLine().trim();
+
+            if (!fileName.matches("\\d{3}[A-Z]+\\.csv")) {
+                System.err.println("Tên file không hợp lệ. Định dạng đúng là: 3 số + chữ IN HOA + '.csv'.");
+                return;
+            }
+
+            File fileToDelete = new File(projectFolderPath + fileName);
+            if (!fileToDelete.exists()) {
+                System.err.println("File không tồn tại: " + fileToDelete.getName());
+                return;
+            }
+
+            projectService.removeProject(fileToDelete.getAbsolutePath());
+            System.out.println("Đã xóa file project: " + fileName);
+        } catch (Exception e) {
+            System.err.println("Đã xảy ra lỗi khi xóa project: " + e.getMessage());
+        }
     }
 
+
     private void addEmployee() {
-        EmployeeView employeeView = new EmployeeView();
-        managerService.addEmployee(employeeView.inputPerson());
+        System.out.println("=== Add New Employee ===");
+        System.out.println("1. Thêm nhân viên.");
+        System.out.println("2. Thêm trưởng nhóm.");
+        System.out.println("3. Thêm quản lí.");
+        System.out.print("Nhập lựa chọn: ");
+
+        String choice = sc.nextLine();
+
+        switch (choice) {
+            case "1" -> {
+                EmployeeView employeeView = new EmployeeView();
+                managerService.addEmployee(employeeView.inputPerson());
+            }
+            case "2" -> {
+                LeaderView leaderView = new LeaderView();
+                managerService.addEmployee(leaderView.inputPerson());
+            }
+            case "3" -> {
+                ManagerView managerView = new ManagerView();
+                managerService.addEmployee(managerView.inputPerson());
+            }
+            default -> System.out.println("Invalid choice. Please select 1, 2 or 3.");
+        }
     }
+
 
     private void updateEmployee() {
         System.out.print("Nhập ID nhân viên cần cập nhật: ");

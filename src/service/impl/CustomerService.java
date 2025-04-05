@@ -55,18 +55,17 @@ public class CustomerService implements ICustomerService, IShowProject {
     }
 
     @Override
-    public boolean updateCustomer(String id) {
+    public boolean updateCustomer(Customer updatedCustomer) {
         boolean result = false;
-        Customer updatedCustomer = CreateObjectByID.getCustomerByID(id);
-        if (updatedCustomer == null) {
+
+        if (updatedCustomer == null || updatedCustomer.getId() == null || updatedCustomer.getId().isEmpty()) {
             return false;
         }
 
         List<Customer> customerList = customerList();
 
         for (Customer customer : customerList) {
-            if (customer.getId().equals(id)) {
-                // Cập nhật thông tin nếu có thay đổi
+            if (customer.getId().equals(updatedCustomer.getId())) {
                 if (!updatedCustomer.getName().isEmpty()) customer.setName(updatedCustomer.getName());
                 if (!updatedCustomer.getPhoneNumber().isEmpty()) customer.setPhoneNumber(updatedCustomer.getPhoneNumber());
                 if (!updatedCustomer.getEmailAddress().isEmpty()) customer.setEmailAddress(updatedCustomer.getEmailAddress());
@@ -90,7 +89,6 @@ public class CustomerService implements ICustomerService, IShowProject {
 
         return result;
     }
-
 
     @Override
     public void deleteCustomer(String id) {
@@ -173,4 +171,23 @@ public class CustomerService implements ICustomerService, IShowProject {
             System.out.println(line);
         }
     }
+
+    @Override
+    public void showCustomer(String id) {
+        List<Customer> customersList = customerList();
+        for (Customer customer : customersList) {
+            if (customer.getId().equals(id)) {
+                System.out.println("Thông tin khách hàng:");
+                System.out.println("ID: " + customer.getId());
+                System.out.println("Tên: " + customer.getName());
+                System.out.println("Số điện thoại: " + customer.getPhoneNumber());
+                System.out.println("Email: " + customer.getEmailAddress());
+                System.out.println("Index Project: " + customer.getIndexProject());
+                System.out.println("Level: " + customer.getLevel());
+                return;
+            }
+        }
+        System.out.println("Không tìm thấy khách hàng với ID: " + id);
+    }
+
 }

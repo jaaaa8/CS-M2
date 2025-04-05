@@ -28,7 +28,8 @@ public class CustomerController{
             System.out.println("3. Sửa order.");
             System.out.println("4. Xem project.");
             System.out.println("5. Thanh toán.");
-            System.out.println("6. Thoát.");
+            System.out.println("6. Sửa thông tin cá nhân.");
+            System.out.println("7. Thoát.");
             System.out.print("Nhập lựa chọn: ");
 
             int choice;
@@ -100,6 +101,42 @@ public class CustomerController{
                     break;
 
                 case 6:
+                    System.out.println("Chỉnh sửa thông tin cá nhân:");
+                    customerService.showCustomer(customer.getId());
+
+                    try {
+                        System.out.println("Sửa tên " + customer.getName() + " thành:");
+                        String newName = sc.nextLine();
+                        if (!newName.matches("^[\\p{L} .'-]+$")) {
+                            throw new IllegalArgumentException("Tên không hợp lệ! Chỉ được chứa chữ cái và khoảng trắng.");
+                        }
+
+                        System.out.println("Sửa SDT " + customer.getPhoneNumber() + " thành: ");
+                        String newPhone = sc.nextLine();
+                        if (!newPhone.matches("^[0-9]{10,11}$")) {
+                            throw new IllegalArgumentException("Số điện thoại không hợp lệ! Phải có 10-11 chữ số.");
+                        }
+
+                        System.out.println("Sửa email " + customer.getEmailAddress() + " thành: ");
+                        String newEmail = sc.nextLine();
+                        if (!newEmail.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+                            throw new IllegalArgumentException("Email không đúng định dạng!");
+                        }
+
+                        customer.setName(newName);
+                        customer.setPhoneNumber(newPhone);
+                        customer.setEmailAddress(newEmail);
+                        customerService.updateCustomer(customer);
+                        System.out.println("Cập nhật thông tin thành công!");
+                        flag = false;
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Lỗi: " + e.getMessage());
+                    }
+                    break;
+
+
+                case 7:
                     System.out.println("Thoát...");
                     flag = false;
                     break;
