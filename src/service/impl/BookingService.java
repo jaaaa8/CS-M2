@@ -68,4 +68,54 @@ public class BookingService implements IBooking {
         }
         ReadAndWriteData.writeToFile(orders,ordersData,NOT_APPEND);
     }
+
+    @Override
+    public boolean updateBooking(int id) {
+        boolean result = false;
+
+        Orders newOrder = CreateObjectByID.getOrdersByID(id);
+        if (newOrder == null) {
+            return false;
+        }
+
+        List<Orders> ordersData = ordersList();
+
+        for (Orders order : ordersData) {
+            if (order.getId() == id) {
+                // Cập nhật từng trường nếu hợp lệ
+                if (newOrder.getCustomer() != null) order.setCustomer(newOrder.getCustomer());
+                if (!newOrder.getDescription().isEmpty()) order.setDescription(newOrder.getDescription());
+                if (!newOrder.getTypeOfOrder().isEmpty()) order.setTypeOfOrder(newOrder.getTypeOfOrder());
+                order.setBudget(newOrder.getBudget());
+
+                result = true;
+                break;
+            }
+        }
+
+        if (result) {
+            List<String> ordersLines = new ArrayList<>();
+            for (Orders order : ordersData) {
+                ordersLines.add(order.getInfo());
+            }
+            ReadAndWriteData.writeToFile(orders, ordersLines, NOT_APPEND);
+        }
+
+        return result;
+    }
+
+    @Override
+    public void showAllOrder() {
+        List<Orders> allOrders = ordersList();
+
+        if (allOrders.isEmpty()) {
+            System.out.println("Hiện không có đơn hàng nào.");
+        } else {
+            System.out.println("Danh sách tất cả đơn hàng:");
+            for (Orders order : allOrders) {
+                System.out.println(order);
+            }
+        }
+    }
+
 }

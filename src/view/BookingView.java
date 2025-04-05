@@ -2,6 +2,7 @@ package view;
 
 import model.Customer;
 import model.Orders;
+import model.Person;
 
 import java.util.Scanner;
 

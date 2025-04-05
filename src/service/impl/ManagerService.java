@@ -122,7 +122,6 @@ public class ManagerService implements IManagerService, IShowSalary {
         }
 
         if (result) {
-            // Ghi lại danh sách nhân viên sau khi cập nhật
             List<String> employeesData = new ArrayList<>();
             for (Employee emp : employeeData) {
                 employeesData.add(emp.getInfo());

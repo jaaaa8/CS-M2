@@ -15,7 +15,7 @@ public class ProjectView {
     private static final Pattern ID_PATTERN = Pattern.compile("^[A-Z]{2}\\d{7}$");
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static Project inputProject() {
+    public Project inputProject() {
         String projectName;
         String startDate;
         String expectedEndDate;
@@ -87,7 +87,7 @@ public class ProjectView {
         return new Project(projectName, startDate, expectedEndDate, leader, customer, employees, typeOfProject, isPaid);
     }
 
-    private static boolean isValidId(String id) {
+    public static boolean isValidId(String id) {
         return ID_PATTERN.matcher(id).matches();
     }
 }

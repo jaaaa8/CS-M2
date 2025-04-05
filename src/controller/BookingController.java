@@ -12,7 +12,9 @@ public class BookingController {
         boolean flag = true;
         while (flag) {
             System.out.println("------------ORDERS----------" +
-                    "\n1. Tạo order.");
+                    "\n1. Tạo order." +
+                    "\n2. Xóa order." +
+                    "\n3. Sửa order.");
 
         }
     }
