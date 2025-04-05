@@ -6,6 +6,9 @@ import model.Customer;
 import model.Employee;
 import model.Leader;
 import model.Manager;
+import service.impl.CustomerService;
+import service.impl.EmployeeService;
+import service.impl.ManagerService;
 import view.CustomerView;
 import view.EmployeeView;
 import view.LeaderView;
@@ -15,6 +18,8 @@ import java.util.Scanner;
 
 public class Main {
     public static Scanner sc = new Scanner(System.in);
+    private static ManagerService managerService = new ManagerService();
+    private static CustomerService customerService = new CustomerService();
 
     public static void main(String[] args) {
         int choice;
@@ -36,6 +41,7 @@ public class Main {
                     case 1 -> {
                         EmployeeView employeeView = new EmployeeView();
                         Employee emp = employeeView.inputPerson();
+                        managerService.addEmployee(emp);
                         EmployeeController empController = new EmployeeController();
                         empController.showDashBoard(emp);
                     }
@@ -43,20 +49,23 @@ public class Main {
                     case 2 -> {
                         CustomerView customerView = new CustomerView();
                         Customer customer = customerView.inputPerson();
+                        customerService.addCustomer(customer);
                         CustomerController customerController = new CustomerController();
                         customerController.showDashBoard(customer);
                     }
 
                     case 3 -> {
                         LeaderView leaderView = new LeaderView();
-                        Leader leader = leaderView.inputPerson();
+                        Leader leader = (Leader) leaderView.inputPerson();
+                        managerService.addEmployee(leader);
                         LeaderController leaderController = new LeaderController();
                         leaderController.showDashBoard(leader);
                     }
 
                     case 4 -> {
                         ManagerView managerView = new ManagerView();
-                        Manager manager = managerView.inputPerson();
+                        Manager manager = (Manager) managerView.inputPerson();
+                        managerService.addEmployee(manager);
                         ManagerController managerController = new ManagerController();
                         managerController.showDashBoard(manager);
                     }
