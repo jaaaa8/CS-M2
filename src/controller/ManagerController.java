@@ -68,6 +68,9 @@ public class ManagerController {
                     managerService.showSalary(manager.getId());
                     break;
                 case "9":
+                    deleteCustomer();
+                    break;
+                case "10":
                     flag = false;
                     break;
                 default:
@@ -243,9 +246,37 @@ public class ManagerController {
     }
 
     private void deleteEmployee() {
-        System.out.print("Nhập ID nhân viên cần xóa: ");
-        String id = sc.nextLine();
-        managerService.deleteEmployee(id);
-        System.out.println("Xóa nhân viên thành công nếu ID hợp lệ.");
+        try {
+            System.out.print("Nhập ID nhân viên cần xóa: ");
+            String id = sc.nextLine();
+
+            if (!ProjectView.isValidId(id)) {
+                System.err.println("ID không hợp lệ. Phải gồm 2 chữ viết hoa + 7 số.");
+                return;
+            }
+
+            managerService.deleteEmployee(id);
+            System.out.println("Xóa nhân viên thành công!");
+        } catch (Exception e) {
+            System.err.println("Đã xảy ra lỗi khi xóa nhân viên: " + e.getMessage());
+        }
     }
+
+    private void deleteCustomer() {
+        try {
+            System.out.print("Nhập ID khách hàng muốn xóa: ");
+            String id = sc.nextLine();
+
+            if (!ProjectView.isValidId(id)) {
+                System.err.println("ID không hợp lệ. Phải gồm 2 chữ viết hoa + 7 số.");
+                return;
+            }
+
+            customerService.deleteCustomer(id);
+            System.out.println("Xóa khách hàng thành công!");
+        } catch (Exception e) {
+            System.err.println("Đã xảy ra lỗi khi xóa khách hàng: " + e.getMessage());
+        }
+    }
+
 }

@@ -1,8 +1,11 @@
 package view;
 
 import model.Customer;
+import service.impl.CustomerService;
+import service.impl.ManagerService;
 
 public class CustomerView extends PersonView<Customer>{
+    private CustomerService customerService = new CustomerService();
     @Override
     protected Customer createPerson(String name, String phoneNumber, String emailAddress, int indexProject) {
         int level = 0;
@@ -21,7 +24,11 @@ public class CustomerView extends PersonView<Customer>{
             }
         }
 
-        return new Customer(name, phoneNumber, emailAddress, indexProject, level);
+        Customer customer = new Customer(name, phoneNumber, emailAddress, indexProject, level);
+
+        customerService.addCustomer(customer);
+
+        return customer;
     }
 
 }

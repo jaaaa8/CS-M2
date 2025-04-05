@@ -1,8 +1,10 @@
 package view;
 
 import model.Employee;
+import service.impl.ManagerService;
 
 public class EmployeeView extends PersonView<Employee> {
+    private ManagerService managerService;
     @Override
     protected Employee createPerson(String name, String phoneNumber, String emailAddress, int indexProject) {
         int yearOfJoining;
@@ -24,10 +26,18 @@ public class EmployeeView extends PersonView<Employee> {
 
         while (true) {
             try {
-                System.out.print("Nhập loại nhân viên: ");
-                typeOfEmployee = sc.nextLine().trim();
-                if (typeOfEmployee.isEmpty()) {
-                    throw new Exception("Loại nhân viên không được để trống.");
+                System.out.println("Chọn loại nhân viên:");
+                System.out.println("1. EMPLOYEE");
+                System.out.println("2. LEADER");
+                System.out.println("3. MANAGER");
+                System.out.print("Lựa chọn của bạn: ");
+                String choice = sc.nextLine().trim();
+
+                switch (choice) {
+                    case "1" -> typeOfEmployee = "EMPLOYEE";
+                    case "2" -> typeOfEmployee = "LEADER";
+                    case "3" -> typeOfEmployee = "MANAGER";
+                    default -> throw new Exception("Lựa chọn không hợp lệ. Vui lòng chọn 1, 2 hoặc 3.");
                 }
                 break;
             } catch (Exception e) {
@@ -35,7 +45,11 @@ public class EmployeeView extends PersonView<Employee> {
             }
         }
 
-        return new Employee(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee);
+        Employee employee = new Employee(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee);
+
+        managerService.addEmployee(employee);
+
+        return employee;
     }
 
 }

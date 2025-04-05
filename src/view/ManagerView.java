@@ -2,8 +2,40 @@ package view;
 
 import model.Employee;
 import model.Manager;
+import service.impl.ManagerService;
+import util.ReadAndWriteData;
+
+import java.io.File;
 
 public class ManagerView extends EmployeeView{
+    private ManagerService managerService = new ManagerService();
+
+    @Override
+    public Manager inputPerson() {
+        System.out.print("Nhập tên: ");
+        String name = sc.nextLine();
+
+        System.out.print("Nhập số điện thoại: ");
+        String phone = sc.nextLine();
+
+        System.out.print("Nhập email: ");
+        String email = sc.nextLine();
+
+        int indexProject;
+        while (true) {
+            try {
+                System.out.print("Nhập mã dự án: ");
+                indexProject = Integer.parseInt(sc.nextLine().trim());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi: Nhập số nguyên hợp lệ.");
+            }
+        }
+
+        return createPerson(name, phone, email, indexProject);
+    }
+
+
     @Override
     protected Manager createPerson(String name, String phoneNumber, String emailAddress, int indexProject) {
         Employee employee = super.createPerson(name, phoneNumber, emailAddress, indexProject);
@@ -22,8 +54,7 @@ public class ManagerView extends EmployeeView{
                 System.out.println("Lỗi: " + e.getMessage() + " Vui lòng nhập số nguyên hợp lệ.");
             }
         }
-
-        return new Manager(
+        Manager manager = new Manager(
                 name,
                 phoneNumber,
                 emailAddress,
@@ -32,6 +63,10 @@ public class ManagerView extends EmployeeView{
                 employee.getTypeOfEmployee(),
                 experienceYear
         );
+
+        managerService.addEmployee(manager);
+
+        return manager;
     }
 
 }

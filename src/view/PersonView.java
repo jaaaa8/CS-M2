@@ -54,7 +54,6 @@ public abstract class PersonView<E extends Person>{
                 System.out.println("Lỗi: " + e.getMessage());
             }
         }
-        sc.nextLine();
 
         return createPerson(name, phoneNumber, emailAddress, indexProject);
     }
