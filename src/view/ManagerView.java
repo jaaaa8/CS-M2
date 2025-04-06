@@ -24,4 +24,9 @@ public class ManagerView extends EmployeeView {
             }
         }
     }
+
+    @Override
+    public String inputEmployeeType() {
+        return "MANAGER";
+    }
 }

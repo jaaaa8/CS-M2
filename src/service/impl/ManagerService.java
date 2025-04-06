@@ -26,39 +26,51 @@ public class ManagerService implements IManagerService, IShowSalary {
         for (String line : linesData) {
             String[] partsData = line.split(",");
             if (partsData.length < 8) {
-                System.err.println("Data format exception at line " + line);
+                System.err.println("Invalid data format (too few fields): " + line);
                 continue;
             }
+
             String id = partsData[0];
             String name = partsData[1];
             String phoneNumber = partsData[2];
             String emailAddress = partsData[3];
-            String typeOfEmployee = partsData[5];
             int indexProject = Integer.parseInt(partsData[4]);
+            String typeOfEmployee = partsData[5];
             int salary = Integer.parseInt(partsData[6]);
             int yearOfJoining = Integer.parseInt(partsData[7]);
-            try{
+
+            try {
                 switch (typeOfEmployee.toLowerCase()) {
                     case "employee":
-                        employeeData.add(new Employee(name,phoneNumber,emailAddress,indexProject,yearOfJoining,typeOfEmployee,salary,id));
+                        employeeData.add(new Employee(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee, salary, id));
                         break;
                     case "leader":
+                        if (partsData.length != 9) {
+                            System.err.println("Invalid data format for LEADER: " + line);
+                            continue;
+                        }
                         int indexGroup = Integer.parseInt(partsData[8]);
-                        employeeData.add(new Leader(name,phoneNumber,emailAddress,indexProject,yearOfJoining,typeOfEmployee,salary,id,indexGroup));
+                        employeeData.add(new Leader(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee, salary, id, indexGroup));
                         break;
                     case "manager":
+                        if (partsData.length != 9) {
+                            System.err.println("Invalid data format for MANAGER: " + line);
+                            continue;
+                        }
                         int experienceYear = Integer.parseInt(partsData[8]);
-                        employeeData.add(new Manager(name,phoneNumber,emailAddress,indexProject,yearOfJoining,typeOfEmployee,salary,id,experienceYear));
+                        employeeData.add(new Manager(name, phoneNumber, emailAddress, indexProject, yearOfJoining, typeOfEmployee, salary, id, experienceYear));
                         break;
                     default:
-                        System.err.println("Invalid type of employee");
+                        System.err.println("Invalid type of employee: " + typeOfEmployee);
                 }
-            } catch (Exception e){
-                System.err.println("Error reading employee data!");
+            } catch (Exception e) {
+                System.err.println("Error reading employee data: " + line);
             }
         }
+
         return employeeData;
     }
+
 
     @Override
     public void addEmployee(Employee employee) {

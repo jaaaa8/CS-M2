@@ -24,4 +24,9 @@ public class LeaderView extends EmployeeView {
             }
         }
     }
+
+    @Override
+    public String inputEmployeeType() {
+        return "LEADER";
+    }
 }

@@ -102,8 +102,17 @@ public class ProjectService implements IManageProject, IEditProject {
             return;
         }
         Leader leader = CreateObjectByID.getLeaderByID(LeaderID);
+        if (leader == null) {
+            System.err.println("Leader does not exist");
+            return;
+        }
         int projectID = CreateProjectFileData.getLatestIndex(projectFolder) + 1;
         Project project = new Project(projectID, projectName,startDate,expectedEndDate,leader,order.getCustomer(),employees,order.getTypeOfOrder(),false);
+        order.getCustomer().setIndexProject(projectID);
+        leader.setIndexProject(projectID);
+        for (Employee employee : employees) {
+            employee.setIndexProject(projectID);
+        }
         CreateProjectFileData.createProjectFile(projectFolderPath, project);
         bookingService.removeBooking(idOrder);
     }

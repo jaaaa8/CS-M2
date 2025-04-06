@@ -24,20 +24,8 @@ public class EmployeeView extends PersonView<Employee> {
         }
     }
 
-    private String inputEmployeeType() {
-        while (true) {
-            System.out.println("Chọn loại nhân viên:");
-            System.out.println("1. EMPLOYEE");
-            System.out.println("2. LEADER");
-            System.out.println("3. MANAGER");
-            System.out.print("Lựa chọn của bạn: ");
-            String choice = sc.nextLine().trim();
-            switch (choice) {
-                case "1": return "EMPLOYEE";
-                case "2": return "LEADER";
-                case "3": return "MANAGER";
-                default: System.out.println("Lỗi: Lựa chọn không hợp lệ. Vui lòng chọn 1, 2 hoặc 3.");
-            }
-        }
+    protected String inputEmployeeType() {
+        return "EMPLOYEE";
     }
+
 }

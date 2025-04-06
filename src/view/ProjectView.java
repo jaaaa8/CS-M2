@@ -36,7 +36,7 @@ public class ProjectView {
             expectedEndDate = scanner.nextLine();
 
             while (true) {
-                System.out.print("Nhập ID của Leader (VD: L1234567): ");
+                System.out.print("Nhập ID của Leader (VD: L1234567891): ");
                 String leaderId = scanner.nextLine().trim();
                 if (isValidId(leaderId)) {
                     leader = CreateObjectByID.getLeaderByID(leaderId);
@@ -48,7 +48,7 @@ public class ProjectView {
             }
 
             while (true) {
-                System.out.print("Nhập ID của Customer (VD: C1234567): ");
+                System.out.print("Nhập ID của Customer (VD: C1234567891): ");
                 String customerId = scanner.nextLine().trim();
                 if (isValidId(customerId)) {
                     customer = CreateObjectByID.getCustomerByID(customerId);
@@ -59,7 +59,7 @@ public class ProjectView {
                 }
             }
 
-            System.out.println("Nhập ID các nhân viên (VD: E1234567) - nhập 'x' để kết thúc:");
+            System.out.println("Nhập ID các nhân viên (VD: E1234567971) - nhập 'x' để kết thúc:");
             while (true) {
                 System.out.print("ID nhân viên: ");
                 String empId = scanner.nextLine().trim();
@@ -76,15 +76,40 @@ public class ProjectView {
                 }
             }
 
-            System.out.print("Nhập loại dự án: ");
-            typeOfProject = scanner.nextLine();
+            System.out.println("Nhập loại dự án:");
+            System.out.println("1. Mở rộng.");
+            System.out.println("2. Khởi công.");
+            System.out.println("3. Sửa chữa.");
+
+            try {
+                int projectChoice = Integer.parseInt(scanner.nextLine());
+                typeOfProject = switch (projectChoice) {
+                    case 1 -> "EXPAND";
+                    case 2 -> "COMMENCEMENT";
+                    case 3 -> "RENOVATION";
+                    default -> {
+                        System.out.println("Hãy nhập đúng lệnh!");
+                        yield "UNKNOWN";
+                    }
+                };
+            } catch (NumberFormatException e) {
+                System.out.println("Vui lòng nhập số hợp lệ!");
+                typeOfProject = "UNKNOWN";
+            }
 
         } catch (Exception e) {
             System.out.println("Đã xảy ra lỗi khi nhập dữ liệu: " + e.getMessage());
             return null;
         }
 
-        return new Project(projectName, startDate, expectedEndDate, leader, customer, employees, typeOfProject, isPaid);
+        Project project = new Project(projectName, startDate, expectedEndDate, leader, customer, employees, typeOfProject, isPaid);
+
+        customer.setIndexProject(project.getIdProject());
+        leader.setIndexProject(project.getIdProject());
+        for (Employee employee : employees) {
+            employee.setIndexProject(project.getIdProject());
+        }
+        return project;
     }
 
     public static boolean isValidId(String id) {
