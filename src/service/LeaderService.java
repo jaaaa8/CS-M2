@@ -1,10 +1,10 @@
-package service.impl;
+package service;
 
 import model.*;
-import service.IEditProject;
-import service.IShowProject;
-import service.IShowSalary;
-import util.CreateObjectByID;
+import service.impl.IEditProject;
+import service.impl.IShowProject;
+import service.impl.IShowSalary;
+import dto.CreateObjectByID;
 import util.ReadAndWriteData;
 
 import java.io.File;

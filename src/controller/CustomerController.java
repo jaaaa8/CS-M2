@@ -2,10 +2,9 @@ package controller;
 
 import model.Customer;
 import model.Orders;
-import model.Person;
-import service.impl.BookingService;
-import service.impl.CustomerService;
-import util.CreateObjectByID;
+import service.BookingService;
+import service.CustomerService;
+import dto.CreateObjectByID;
 import view.BookingView;
 import view.ProjectView;
 

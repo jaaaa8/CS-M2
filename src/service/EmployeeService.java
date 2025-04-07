@@ -1,11 +1,9 @@
-package service.impl;
+package service;
 
 import model.Employee;
-import model.Orders;
-import model.Person;
-import service.IShowProject;
-import service.IShowSalary;
-import util.CreateObjectByID;
+import service.impl.IShowProject;
+import service.impl.IShowSalary;
+import dto.CreateObjectByID;
 import util.ReadAndWriteData;
 
 import java.io.File;

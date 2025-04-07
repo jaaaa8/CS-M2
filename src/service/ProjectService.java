@@ -1,9 +1,9 @@
-package service.impl;
+package service;
 
 import model.*;
-import service.IEditProject;
-import service.IManageProject;
-import util.CreateObjectByID;
+import service.impl.IEditProject;
+import service.impl.IManageProject;
+import dto.CreateObjectByID;
 import util.CreateProjectFileData;
 import util.ReadAndWriteData;
 

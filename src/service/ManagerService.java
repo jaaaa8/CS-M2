@@ -1,11 +1,11 @@
-package service.impl;
+package service;
 
 import model.Employee;
 import model.Leader;
 import model.Manager;
-import service.IManagerService;
-import service.IShowSalary;
-import util.CreateObjectByID;
+import service.impl.IManagerService;
+import service.impl.IShowSalary;
+import dto.CreateObjectByID;
 import util.ReadAndWriteData;
 
 import java.util.ArrayList;

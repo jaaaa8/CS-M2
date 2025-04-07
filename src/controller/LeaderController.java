@@ -1,9 +1,10 @@
 package controller;
 
+import dto.CreateObjectByID;
 import model.Employee;
 import model.Leader;
 import model.Project;
-import service.impl.LeaderService;
+import service.LeaderService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class LeaderController {
 
         for (String id : ids) {
             id = id.trim();
-            Employee employee = util.CreateObjectByID.getEmployeeByID(id);
+            Employee employee = CreateObjectByID.getEmployeeByID(id);
             if (employee != null) {
                 employeeList.add(employee);
             } else {

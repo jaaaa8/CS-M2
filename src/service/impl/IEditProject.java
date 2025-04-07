@@ -1,8 +1,6 @@
-package service;
+package service.impl;
 
 import model.Project;
-
-import java.io.File;
 
 public interface IEditProject {
     boolean editProject(String pathName, Project project);
